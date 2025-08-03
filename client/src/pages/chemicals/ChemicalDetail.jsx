@@ -4,7 +4,7 @@ import CompoundDetails from "../../components/CompoundDetails";
 import "./Chemical.scss";
 
 const API_URL = "/api/chemicals";
-const PUBCHEM = "https://pubchem.ncbi.nlm.nih.gov/rest/pug";
+const LOOKUP_URL = "/api/chemicals/lookup";
 
 export default function ChemicalDetail() {
   const { id } = useParams();
@@ -19,11 +19,9 @@ export default function ChemicalDetail() {
         setItem(data);
         setLoading(false);
         if (data?.name) {
-          fetch(
-            `${PUBCHEM}/compound/name/${encodeURIComponent(data.name)}/JSON`
-          )
+          fetch(`${LOOKUP_URL}/${encodeURIComponent(data.name)}`)
             .then(res => (res.ok ? res.json() : Promise.reject()))
-            .then(pc => setCompound(pc?.PC_Compounds?.[0]))
+            .then(pc => setCompound(pc))
             .catch(() => {});
         }
       })
