@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Glassware.scss";
 
 const API_URL = "http://localhost:5000/glassware";
 
@@ -26,23 +27,29 @@ export default function CreateGlassware() {
   return (
     <div>
       <h2>Add Glassware</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="number"
-          value={capacity}
-          onChange={(e) => setCapacity(e.target.value)}
-          placeholder="Capacity (mL)"
-        />
-        <input
-          value={shape}
-          onChange={(e) => setShape(e.target.value)}
-          placeholder="Shape"
-        />
-        <input
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}
-          placeholder="Brand"
-        />
+      <form onSubmit={handleSubmit} className="glassware-form">
+        <label>
+          Capacity (mL)
+          <input
+            type="number"
+            value={capacity}
+            onChange={(e) => setCapacity(e.target.value)}
+          />
+        </label>
+        <label>
+          Shape
+          <input
+            value={shape}
+            onChange={(e) => setShape(e.target.value)}
+          />
+        </label>
+        <label>
+          Brand
+          <input
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}
+          />
+        </label>
         <button type="submit">Save</button>
       </form>
     </div>

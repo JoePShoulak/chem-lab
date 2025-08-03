@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import "./Glassware.scss";
 
 const API_URL = "http://localhost:5000/glassware";
 
@@ -28,12 +29,16 @@ export default function GlasswareList() {
     <div>
       <h2>Inventory</h2>
       <Link to="/inventory/new">Add Glassware</Link>
-      <ul>
+      <ul className="glassware-list">
         {glassware.map(g => (
           <li key={g._id}>
-            <Link to={`/inventory/${g._id}`}>{g.brand} {g.shape} ({g.capacity} mL)</Link>{" "}
-            <Link to={`/inventory/${g._id}/edit`}>Edit</Link>{" "}
-            <button onClick={() => deleteGlass(g._id)}>Delete</button>
+            <Link to={`/inventory/${g._id}`}>
+              {g.brand} {g.shape} ({g.capacity} mL)
+            </Link>
+            <div className="actions">
+              <Link to={`/inventory/${g._id}/edit`}>Edit</Link>
+              <button onClick={() => deleteGlass(g._id)}>Delete</button>
+            </div>
           </li>
         ))}
       </ul>
