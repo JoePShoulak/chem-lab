@@ -75,7 +75,13 @@ router.get("/lookup/:name", async (req, res) => {
               body: JSON.stringify({ start: 0, count: 10 }),
             }
           );
-          const rscIds = await rscIdsResponse.json();
+          const rscIdsText = await rscIdsResponse.text();
+          let rscIds;
+          try {
+            rscIds = JSON.parse(rscIdsText);
+          } catch {
+            console.log("RSC results not JSON:", rscIdsText);
+          }
           if (Array.isArray(rscIds?.results) && rscIds.results.length) {
             const recordPromises = rscIds.results.map(id =>
               fetch(`https://api.rsc.org/compounds/v1/records/${id}`, {
@@ -85,7 +91,15 @@ router.get("/lookup/:name", async (req, res) => {
                   apikey: process.env.RSC_KEY,
                 },
                 body: JSON.stringify({}),
-              }).then(r => r.json())
+              }).then(async r => {
+                const text = await r.text();
+                try {
+                  return JSON.parse(text);
+                } catch {
+                  console.log(`RSC record ${id} not JSON:`, text);
+                  return null;
+                }
+              })
             );
             const rscRecords = await Promise.all(recordPromises);
             console.log("RSC data:", rscRecords);
