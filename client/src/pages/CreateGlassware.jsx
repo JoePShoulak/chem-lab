@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:5000/glassware";
+const API_URL = "http://localhost:5000/api/glassware";
 
 export default function CreateGlassware() {
   const [capacity, setCapacity] = useState("");

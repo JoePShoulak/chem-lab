@@ -18,7 +18,8 @@ router.post('/', async (req, res) => {
   try {
     const glass = new Glassware({
       capacity: req.body.capacity,
-      category: req.body.category,
+      // Accept legacy `shape` field but prefer the new `category`
+      category: req.body.category || req.body.shape,
       brand: req.body.brand,
     });
     const saved = await glass.save();
@@ -46,7 +47,8 @@ router.put('/:id', async (req, res) => {
       req.params.id,
       {
         capacity: req.body.capacity,
-        category: req.body.category,
+        // Accept either `category` or legacy `shape`
+        category: req.body.category || req.body.shape,
         brand: req.body.brand,
       },
       { new: true, runValidators: true }

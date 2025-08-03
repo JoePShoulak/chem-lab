@@ -18,6 +18,9 @@ app.use(
 );
 
 app.use(express.json());
+// Support both new `/api/*` endpoints and legacy paths without the prefix
+app.use("/api/glassware", glasswareRouter);
+app.use("/api/inventory", inventoryRouter);
 app.use("/glassware", glasswareRouter);
 app.use("/inventory", inventoryRouter);
 
