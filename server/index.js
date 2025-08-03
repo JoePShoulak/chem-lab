@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const glasswareRouter = require("./routes/glassware");
 const ppeRouter = require("./routes/ppe");
+const equipmentRouter = require("./routes/equipment");
 const inventoryRouter = require("./routes/inventory");
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(express.json());
 // Support both new `/api/*` endpoints and legacy paths without the prefix
 app.use(["/api/glassware", "/glassware"], glasswareRouter);
 app.use(["/api/ppe", "/ppe"], ppeRouter);
+app.use(["/api/equipment", "/equipment"], equipmentRouter);
 app.use(["/api/inventory", "/inventory"], inventoryRouter);
 
 mongoose

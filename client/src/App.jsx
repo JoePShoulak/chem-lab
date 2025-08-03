@@ -7,6 +7,9 @@ import EditGlassware from "./pages/glassware/EditGlassware";
 import PPEDetail from "./pages/ppe/PPEDetail";
 import CreatePPE from "./pages/ppe/CreatePPE";
 import EditPPE from "./pages/ppe/EditPPE";
+import EquipmentDetail from "./pages/equipment/EquipmentDetail";
+import CreateEquipment from "./pages/equipment/CreateEquipment";
+import EditEquipment from "./pages/equipment/EditEquipment";
 import Reference from "./pages/Reference";
 
 function Header() {
@@ -81,6 +84,9 @@ function App() {
             <Route path="/ppe/new" element={<CreatePPE />} />
             <Route path="/ppe/:id" element={<PPEDetail />} />
             <Route path="/ppe/:id/edit" element={<EditPPE />} />
+            <Route path="/equipment/new" element={<CreateEquipment />} />
+            <Route path="/equipment/:id" element={<EquipmentDetail />} />
+            <Route path="/equipment/:id/edit" element={<EditEquipment />} />
             <Route path="/reference" element={<Reference />} />
             <Route path="*" element={<Navigate to="/inventory" replace />} />
           </Routes>

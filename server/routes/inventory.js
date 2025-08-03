@@ -1,6 +1,7 @@
 const express = require('express');
 const Glassware = require('../models/Glassware');
 const PPE = require('../models/PPE');
+const Equipment = require('../models/Equipment');
 
 const router = express.Router();
 
@@ -9,9 +10,11 @@ router.get('/', async (req, res) => {
   try {
     const glassware = await Glassware.find().lean();
     const ppe = await PPE.find().lean();
+    const equipment = await Equipment.find().lean();
     const items = [
       ...glassware.map(g => ({ ...g, type: 'glassware' })),
       ...ppe.map(p => ({ ...p, type: 'ppe' })),
+      ...equipment.map(e => ({ ...e, type: 'equipment' })),
     ];
     res.json(items);
   } catch (err) {

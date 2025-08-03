@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import "./glassware/Glassware.scss";
 import "./ppe/PPE.scss";
+import "./equipment/Equipment.scss";
 
 const API_URLS = {
   all: "/api/inventory",
   glassware: "/api/glassware",
   ppe: "/api/ppe",
+  equipment: "/api/equipment",
 };
 
 export default function Inventory() {
@@ -47,10 +49,12 @@ export default function Inventory() {
       <h2>Inventory</h2>
       {type === "glassware" && <Link to="/glassware/new">Add Glassware</Link>}
       {type === "ppe" && <Link to="/ppe/new">Add PPE</Link>}
+      {type === "equipment" && <Link to="/equipment/new">Add Equipment</Link>}
       {type === "all" && (
         <>
           <Link to="/glassware/new">Add Glassware</Link> <br />
-          <Link to="/ppe/new">Add PPE</Link>
+          <Link to="/ppe/new">Add PPE</Link> <br />
+          <Link to="/equipment/new">Add Equipment</Link>
         </>
       )}
       <ul className={(type === "all" ? "glassware" : type) + "-list"}>
