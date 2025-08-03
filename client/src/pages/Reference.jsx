@@ -2,13 +2,13 @@ import { useState } from "react";
 
 export default function Reference() {
   const [name, setName] = useState("");
+  const pubchem = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/";
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    // Example API call placeholder:
-    // const response = await fetch(`/api/chemicals?name=${encodeURIComponent(name)}`);
-    // const data = await response.json();
-    // console.log(data);
+    const response = await fetch(`${pubchem}/compound/name/${name}/JSON`);
+    const data = await response.json();
+    console.log(data);
   };
 
   return (
@@ -17,7 +17,7 @@ export default function Reference() {
       <form onSubmit={handleSubmit}>
         <input
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={e => setName(e.target.value)}
           placeholder="Chemical name"
         />
         <button type="submit">Lookup</button>
