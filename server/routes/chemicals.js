@@ -41,6 +41,32 @@ router.get('/lookup/:name', async (req, res) => {
     const data = await response.json();
     const compound = data?.PC_Compounds?.[0];
     if (!compound) return res.status(404).json({ error: 'No compound found' });
+
+    const smilesProp = compound.props?.find(
+      p => p?.urn?.label === 'SMILES' && p?.urn?.name === 'Canonical'
+    );
+    const smiles = smilesProp?.value?.sval;
+
+    if (smiles && process.env.RSC_KEY) {
+      try {
+        const rscResponse = await fetch(
+          'https://api.rsc.org/compounds/v1/filter/smiles',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              apikey: process.env.RSC_KEY,
+            },
+            body: JSON.stringify({ smiles }),
+          }
+        );
+        const rscData = await rscResponse.json();
+        console.log('RSC response:', rscData);
+      } catch (e) {
+        console.error('RSC lookup failed:', e);
+      }
+    }
+
     res.json(compound);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch compound' });
