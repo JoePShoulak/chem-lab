@@ -22,22 +22,26 @@ function Footer() {
   );
 }
 
-function Sidebar() {
+function Sidebar({ filter, setFilter }) {
+  const filters = ["All", "Glassware", "Chemicals", "PPE", "Equipment"];
   return (
     <aside className="app-sidebar">
-      <nav>
-        <ul>
-          <li>
-            <a href="#/">Dashboard</a>
+      <ul>
+        {filters.map(f => (
+          <li key={f}>
+            <a
+              href="#"
+              className={filter === f ? "active" : ""}
+              onClick={e => {
+                e.preventDefault();
+                setFilter(f);
+              }}
+            >
+              {f}
+            </a>
           </li>
-          <li>
-            <a href="#/items">Items</a>
-          </li>
-          <li>
-            <a href="#/settings">Settings</a>
-          </li>
-        </ul>
-      </nav>
+        ))}
+      </ul>
     </aside>
   );
 }
@@ -68,6 +72,7 @@ function NavBar() {
 
 function App() {
   const [route, setRoute] = useState(window.location.hash);
+  const [filter, setFilter] = useState("All");
 
   useEffect(() => {
     const onHashChange = () => setRoute(window.location.hash);
@@ -97,9 +102,9 @@ function App() {
       route === "" ||
       route === "#"
     ) {
-      return <ItemsList />;
+      return <ItemsList filter={filter} />;
     }
-    return <ItemsList />;
+    return <ItemsList filter={filter} />;
   };
 
   return (
@@ -107,7 +112,7 @@ function App() {
       <Header />
       <NavBar />
       <div className="app-body">
-        <Sidebar />
+        <Sidebar filter={filter} setFilter={setFilter} />
         <main className="app-content">{renderRoute()}</main>
       </div>
       <Footer />

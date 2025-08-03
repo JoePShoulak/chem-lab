@@ -74,6 +74,10 @@ body, html, #root {
             color: $text-light;
             text-decoration: none;
 
+            &.active {
+              font-weight: bold;
+            }
+
             &:hover {
               text-decoration: underline;
             }
