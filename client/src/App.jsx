@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// client/src/App.jsx
+import "./App.scss";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function Header() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <header className="app-header">
+      <h1>My App Header</h1>
+    </header>
+  );
 }
 
-export default App
+function Footer() {
+  return (
+    <footer className="app-footer">
+      <p>© 2025 My App</p>
+    </footer>
+  );
+}
+
+function Sidebar() {
+  return (
+    <aside className="app-sidebar">
+      <nav>
+        <ul>
+          <li>
+            <a href="#">Dashboard</a>
+          </li>
+          <li>
+            <a href="#">Items</a>
+          </li>
+          <li>
+            <a href="#">Settings</a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+  );
+}
+
+function App() {
+  return (
+    <div className="app-container">
+      <Header />
+      <div className="app-body">
+        <Sidebar />
+        <main className="app-content">
+          <h2>Welcome to the main content area</h2>
+          <p>This is where your page content will go.</p>
+        </main>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
+export default App;
