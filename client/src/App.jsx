@@ -10,6 +10,9 @@ import EditPPE from "./pages/ppe/EditPPE";
 import EquipmentDetail from "./pages/equipment/EquipmentDetail";
 import CreateEquipment from "./pages/equipment/CreateEquipment";
 import EditEquipment from "./pages/equipment/EditEquipment";
+import ChemicalDetail from "./pages/chemicals/ChemicalDetail";
+import CreateChemical from "./pages/chemicals/CreateChemical";
+import EditChemical from "./pages/chemicals/EditChemical";
 import Reference from "./pages/Reference";
 
 function Header() {
@@ -87,6 +90,9 @@ function App() {
             <Route path="/equipment/new" element={<CreateEquipment />} />
             <Route path="/equipment/:id" element={<EquipmentDetail />} />
             <Route path="/equipment/:id/edit" element={<EditEquipment />} />
+            <Route path="/chemicals/new" element={<CreateChemical />} />
+            <Route path="/chemicals/:id" element={<ChemicalDetail />} />
+            <Route path="/chemicals/:id/edit" element={<EditChemical />} />
             <Route path="/reference" element={<Reference />} />
             <Route path="*" element={<Navigate to="/inventory" replace />} />
           </Routes>
