@@ -1,13 +1,26 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const API_URL = "http://localhost:5000/glassware";
+const API_URL = "/api/glassware";
 
 export default function EditGlassware() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [capacity, setCapacity] = useState("");
-  const [shape, setShape] = useState("");
+  const categories = [
+    'Boiling Flask',
+    'Erlenmeyer Flask',
+    'Griffin Beaker',
+    'Graduated Cylinder',
+    'Addition Funnel',
+    'Separation Funnel',
+    'Filtering Funnel',
+    'Filtering Flask',
+    'Test Tube',
+    'Condenser',
+    'Watch Glass',
+  ];
+  const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -16,7 +29,7 @@ export default function EditGlassware() {
       .then(res => res.json())
       .then(data => {
         setCapacity(data.capacity || "");
-        setShape(data.shape || "");
+        setCategory(data.category || "");
         setBrand(data.brand || "");
         setLoading(false);
       })
@@ -30,7 +43,7 @@ export default function EditGlassware() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         capacity: Number(capacity),
-        shape,
+        category,
         brand,
       }),
     });
@@ -49,11 +62,13 @@ export default function EditGlassware() {
           onChange={e => setCapacity(e.target.value)}
           placeholder="Capacity (mL)"
         />
-        <input
-          value={shape}
-          onChange={e => setShape(e.target.value)}
-          placeholder="Shape"
-        />
+        <select value={category} onChange={e => setCategory(e.target.value)}>
+          {categories.map(c => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
         <input
           value={brand}
           onChange={e => setBrand(e.target.value)}

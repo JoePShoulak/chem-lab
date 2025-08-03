@@ -1,6 +1,6 @@
 import { Link, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import "./App.scss";
-import GlasswareList from "./pages/GlasswareList";
+import Inventory from "./pages/Inventory";
 import GlasswareDetail from "./pages/GlasswareDetail";
 import CreateGlassware from "./pages/CreateGlassware";
 import EditGlassware from "./pages/EditGlassware";
@@ -28,13 +28,19 @@ function Sidebar() {
       <nav>
         <ul>
           <li>
-            <Link to="/">Dashboard</Link>
+            <Link to="/inventory?type=all">All</Link>
           </li>
           <li>
-            <Link to="/inventory">Inventory</Link>
+            <Link to="/inventory?type=glassware">Glassware</Link>
           </li>
           <li>
-            <Link to="/settings">Settings</Link>
+            <Link to="/inventory?type=ppe">PPE</Link>
+          </li>
+          <li>
+            <Link to="/inventory?type=equipment">Equipment</Link>
+          </li>
+          <li>
+            <Link to="/inventory?type=chemicals">Chemicals</Link>
           </li>
         </ul>
       </nav>
@@ -77,7 +83,7 @@ function App() {
         <main className="app-content">
           <Routes>
             <Route path="/" element={<Navigate to="/inventory" replace />} />
-            <Route path="/inventory" element={<GlasswareList />} />
+            <Route path="/inventory" element={<Inventory />} />
             <Route path="/inventory/new" element={<CreateGlassware />} />
             <Route path="/inventory/:id" element={<GlasswareDetail />} />
             <Route path="/inventory/:id/edit" element={<EditGlassware />} />

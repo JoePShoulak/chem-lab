@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-const API_URL = "http://localhost:5000/glassware";
+const API_URL = "/api/glassware";
 
 export default function GlasswareDetail() {
   const { id } = useParams();
@@ -23,7 +23,7 @@ export default function GlasswareDetail() {
 
   return (
     <div>
-      <h2>{glass.brand} {glass.shape}</h2>
+      <h2>{glass.brand} {glass.category}</h2>
       <p>Capacity: {glass.capacity} mL</p>
       <Link to={`/inventory/${id}/edit`}>Edit</Link>
       <Link to="/inventory">Back to list</Link>
