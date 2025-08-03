@@ -38,6 +38,7 @@ export default function ChemicalDetail() {
       <h2>{item.name}</h2>
       {item.volume != null && <p>Volume: {item.volume} mL</p>}
       {item.mass != null && <p>Mass: {item.mass} g</p>}
+      {item.concentration && <p>Concentration: {item.concentration}</p>}
       {item.notes && <p>Notes: {item.notes}</p>}
       {compound && <CompoundDetails compound={compound} />}
       <div className="actions">

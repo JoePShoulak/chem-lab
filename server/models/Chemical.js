@@ -4,6 +4,7 @@ const ChemicalSchema = new mongoose.Schema({
   name: { type: String, required: true },
   volume: { type: Number },
   mass: { type: Number },
+  concentration: { type: String },
   notes: { type: String },
 });
 

@@ -9,6 +9,7 @@ export default function EditChemical() {
   const [name, setName] = useState("");
   const [volume, setVolume] = useState("");
   const [mass, setMass] = useState("");
+  const [concentration, setConcentration] = useState("");
   const [notes, setNotes] = useState("");
   const navigate = useNavigate();
 
@@ -19,6 +20,7 @@ export default function EditChemical() {
         setName(data.name || "");
         setVolume(data.volume ?? "");
         setMass(data.mass ?? "");
+        setConcentration(data.concentration || "");
         setNotes(data.notes || "");
       });
   }, [id]);
@@ -32,6 +34,7 @@ export default function EditChemical() {
         name,
         volume: volume !== "" ? Number(volume) : undefined,
         mass: mass !== "" ? Number(mass) : undefined,
+        concentration: concentration || undefined,
         notes,
       }),
     });
@@ -60,6 +63,13 @@ export default function EditChemical() {
             type="number"
             value={mass}
             onChange={e => setMass(e.target.value)}
+          />
+        </label>
+        <label>
+          Concentration
+          <input
+            value={concentration}
+            onChange={e => setConcentration(e.target.value)}
           />
         </label>
         <label>

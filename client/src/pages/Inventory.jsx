@@ -4,6 +4,7 @@ import "./glassware/Glassware.scss";
 import "./ppe/PPE.scss";
 import "./equipment/Equipment.scss";
 import "./chemicals/Chemical.scss";
+import "./misc/Misc.scss";
 
 const API_URLS = {
   all: "/api/inventory",
@@ -11,6 +12,7 @@ const API_URLS = {
   ppe: "/api/ppe",
   equipment: "/api/equipment",
   chemicals: "/api/chemicals",
+  misc: "/api/misc",
 };
 
 export default function Inventory() {
@@ -53,12 +55,14 @@ export default function Inventory() {
       {type === "ppe" && <Link to="/ppe/new">Add PPE</Link>}
       {type === "equipment" && <Link to="/equipment/new">Add Equipment</Link>}
       {type === "chemicals" && <Link to="/chemicals/new">Add Chemical</Link>}
+      {type === "misc" && <Link to="/misc/new">Add Misc Item</Link>}
       {type === "all" && (
         <>
           <Link to="/glassware/new">Add Glassware</Link> <br />
           <Link to="/ppe/new">Add PPE</Link> <br />
           <Link to="/equipment/new">Add Equipment</Link> <br />
-          <Link to="/chemicals/new">Add Chemical</Link>
+          <Link to="/chemicals/new">Add Chemical</Link> <br />
+          <Link to="/misc/new">Add Misc Item</Link>
         </>
       )}
       <ul className={(type === "all" ? "glassware" : type) + "-list"}>
@@ -69,6 +73,8 @@ export default function Inventory() {
               <Link to={`/${itemType}/${item._id}`}>
                 {itemType === "chemicals"
                   ? item.name
+                  : itemType === "misc"
+                  ? `${item.brand} ${item.name}`
                   : `${item.brand} ${item.category}`} 
                 {itemType === "glassware" && ` (${item.capacity} mL)`}
                 {itemType === "chemicals" &&

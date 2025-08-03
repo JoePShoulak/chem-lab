@@ -13,6 +13,9 @@ import EditEquipment from "./pages/equipment/EditEquipment";
 import ChemicalDetail from "./pages/chemicals/ChemicalDetail";
 import CreateChemical from "./pages/chemicals/CreateChemical";
 import EditChemical from "./pages/chemicals/EditChemical";
+import MiscDetail from "./pages/misc/MiscDetail";
+import CreateMisc from "./pages/misc/CreateMisc";
+import EditMisc from "./pages/misc/EditMisc";
 import Reference from "./pages/Reference";
 
 function Header() {
@@ -49,6 +52,7 @@ function Sidebar() {
           <MyLink to="/inventory?type=ppe">PPE</MyLink>
           <MyLink to="/inventory?type=equipment">Equipment</MyLink>
           <MyLink to="/inventory?type=chemicals">Chemicals</MyLink>
+          <MyLink to="/inventory?type=misc">Misc</MyLink>
         </ul>
       </nav>
     </aside>
@@ -93,6 +97,9 @@ function App() {
             <Route path="/chemicals/new" element={<CreateChemical />} />
             <Route path="/chemicals/:id/edit" element={<EditChemical />} />
             <Route path="/chemicals/:id" element={<ChemicalDetail />} />
+            <Route path="/misc/new" element={<CreateMisc />} />
+            <Route path="/misc/:id/edit" element={<EditMisc />} />
+            <Route path="/misc/:id" element={<MiscDetail />} />
             <Route path="/reference" element={<Reference />} />
             <Route path="*" element={<Navigate to="/inventory" replace />} />
           </Routes>

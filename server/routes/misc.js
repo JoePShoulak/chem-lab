@@ -1,26 +1,24 @@
 const express = require('express');
-const Chemical = require('../models/Chemical');
+const Misc = require('../models/Misc');
 
 const router = express.Router();
 
-// Get all chemicals
+// Get all misc items
 router.get('/', async (req, res) => {
   try {
-    const all = await Chemical.find();
+    const all = await Misc.find();
     res.json(all);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Create new chemical
+// Create new misc item
 router.post('/', async (req, res) => {
   try {
-    const item = new Chemical({
+    const item = new Misc({
+      brand: req.body.brand,
       name: req.body.name,
-      volume: req.body.volume,
-      mass: req.body.mass,
-      concentration: req.body.concentration,
       notes: req.body.notes,
     });
     const saved = await item.save();
@@ -30,10 +28,10 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Get chemical by id
+// Get misc item by id
 router.get('/:id', async (req, res) => {
   try {
-    const item = await Chemical.findById(req.params.id);
+    const item = await Misc.findById(req.params.id);
     if (!item) return res.status(404).json({ error: 'Not found' });
     res.json(item);
   } catch (err) {
@@ -41,16 +39,14 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Update chemical by id
+// Update misc item by id
 router.put('/:id', async (req, res) => {
   try {
-    const updated = await Chemical.findByIdAndUpdate(
+    const updated = await Misc.findByIdAndUpdate(
       req.params.id,
       {
+        brand: req.body.brand,
         name: req.body.name,
-        volume: req.body.volume,
-        mass: req.body.mass,
-        concentration: req.body.concentration,
         notes: req.body.notes,
       },
       { new: true, runValidators: true }
@@ -62,12 +58,12 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete chemical by id
+// Delete misc item by id
 router.delete('/:id', async (req, res) => {
   try {
-    const deleted = await Chemical.findByIdAndDelete(req.params.id);
+    const deleted = await Misc.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ error: 'Not found' });
-    res.json({ message: 'Chemical deleted' });
+    res.json({ message: 'Misc item deleted' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

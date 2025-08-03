@@ -8,6 +8,7 @@ export default function CreateChemical() {
   const [name, setName] = useState("");
   const [volume, setVolume] = useState("");
   const [mass, setMass] = useState("");
+  const [concentration, setConcentration] = useState("");
   const [notes, setNotes] = useState("");
   const navigate = useNavigate();
 
@@ -20,6 +21,7 @@ export default function CreateChemical() {
         name,
         volume: volume !== "" ? Number(volume) : undefined,
         mass: mass !== "" ? Number(mass) : undefined,
+        concentration: concentration || undefined,
         notes,
       }),
     });
@@ -48,6 +50,13 @@ export default function CreateChemical() {
             type="number"
             value={mass}
             onChange={e => setMass(e.target.value)}
+          />
+        </label>
+        <label>
+          Concentration
+          <input
+            value={concentration}
+            onChange={e => setConcentration(e.target.value)}
           />
         </label>
         <label>
