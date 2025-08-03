@@ -30,6 +30,86 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Lookup compound details via PubChem
+router.get('/lookup/:name', async (req, res) => {
+  try {
+    const url = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(
+      req.params.name
+    )}/JSON`;
+    const response = await fetch(url);
+    if (!response.ok) return res.status(404).json({ error: 'No compound found' });
+    const data = await response.json();
+    const compound = data?.PC_Compounds?.[0];
+    if (!compound) return res.status(404).json({ error: 'No compound found' });
+
+    const smilesProp = compound.props?.find(
+      p => p?.urn?.label === 'SMILES' && p?.urn?.name === 'Canonical'
+    );
+    const smiles = smilesProp?.value?.sval;
+
+    if (smiles && process.env.RSC_KEY) {
+      try {
+        const rscResponse = await fetch(
+          'https://api.rsc.org/compounds/v1/filter/smiles',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              apikey: process.env.RSC_KEY,
+            },
+            body: JSON.stringify({ smiles }),
+          }
+        );
+        const rscData = await rscResponse.json();
+        const queryId = rscData?.queryId;
+        if (queryId) {
+          const sleep = ms => new Promise(r => setTimeout(r, ms));
+          let record;
+          for (let attempt = 0; attempt < 5; attempt++) {
+            await sleep(1000);
+            const statusRes = await fetch(
+              `https://api.rsc.org/compounds/v1/filter/${queryId}/status`,
+              { headers: { apikey: process.env.RSC_KEY } }
+            );
+            const statusJson = await statusRes.json();
+            if (statusJson?.status === 'Complete') {
+              const recordsRes = await fetch(
+                `https://api.rsc.org/compounds/v1/filter/${queryId}/records`,
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    apikey: process.env.RSC_KEY,
+                  },
+                  body: JSON.stringify({ start: 0, count: 1 }),
+                }
+              );
+              const recordsJson = await recordsRes.json();
+              const id =
+                recordsJson?.records?.[0] || recordsJson?.recordIds?.[0];
+              if (id) {
+                const detailsRes = await fetch(
+                  `https://api.rsc.org/compounds/v1/records/${id}/details`,
+                  { headers: { apikey: process.env.RSC_KEY } }
+                );
+                record = await detailsRes.json();
+              }
+              break;
+            }
+          }
+          console.log('RSC record data:', record);
+        }
+      } catch (e) {
+        console.error('RSC lookup failed:', e);
+      }
+    }
+
+    res.json(compound);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch compound' });
+  }
+});
+
 // Get chemical by id
 router.get('/:id', async (req, res) => {
   try {

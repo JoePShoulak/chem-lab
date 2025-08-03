@@ -7,7 +7,7 @@ export default function Reference() {
   const [name, setName] = useState("");
   const [compound, setCompound] = useState(null);
   const [error, setError] = useState(null);
-  const pubchem = "https://pubchem.ncbi.nlm.nih.gov/rest/pug";
+  const lookupUrl = "/api/chemicals/lookup";
   // TODO: Get physical characteristics like boiling and melting point from somewhere like: https://www.chemspider.com/
   // TODO: Get related reactions from somewhere like: https://docs.open-reaction-database.org/
 
@@ -17,16 +17,12 @@ export default function Reference() {
     setCompound(null);
     try {
       const response = await fetch(
-        `${pubchem}/compound/name/${encodeURIComponent(name)}/JSON`
+        `${lookupUrl}/${encodeURIComponent(name)}`
       );
 
       if (!response.ok) throw new Error("No compound found");
 
-      const data = await response.json();
-      const compoundData = data?.PC_Compounds?.[0];
-
-      if (!compoundData) throw new Error("No compound found");
-
+      const compoundData = await response.json();
       setCompound(compoundData);
     } catch (err) {
       setError(err.message);
