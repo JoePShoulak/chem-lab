@@ -6,6 +6,7 @@ const glasswareRouter = require("./routes/glassware");
 const ppeRouter = require("./routes/ppe");
 const equipmentRouter = require("./routes/equipment");
 const inventoryRouter = require("./routes/inventory");
+const chemicalRouter = require("./routes/chemicals");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(["/api/glassware", "/glassware"], glasswareRouter);
 app.use(["/api/ppe", "/ppe"], ppeRouter);
 app.use(["/api/equipment", "/equipment"], equipmentRouter);
+app.use(["/api/chemicals", "/chemicals"], chemicalRouter);
 app.use(["/api/inventory", "/inventory"], inventoryRouter);
 
 mongoose
