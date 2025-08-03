@@ -23,12 +23,7 @@ app.use("/inventory", inventoryRouter);
 
 mongoose
   .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log("✅ Connected to MongoDB Atlas");
-    app.listen(port, () => {
-      console.log(`🚀 Server listening on port ${port}`);
-    });
-  })
+  .then(() => app.listen(port, () => console.log(`Listening on ${port}`)))
   .catch(err => {
     console.error("❌ Failed to connect to MongoDB", err);
     process.exit(1);

@@ -6,23 +6,23 @@ const API_URL = "http://localhost:5000/glassware";
 export default function CreateGlassware() {
   const [capacity, setCapacity] = useState("");
   const categories = [
-    'Boiling Flask',
-    'Erlenmeyer Flask',
-    'Griffin Beaker',
-    'Graduated Cylinder',
-    'Addition Funnel',
-    'Separation Funnel',
-    'Filtering Funnel',
-    'Filtering Flask',
-    'Test Tube',
-    'Condenser',
-    'Watch Glass',
+    "Boiling Flask",
+    "Erlenmeyer Flask",
+    "Filtering Flask",
+    "Filtering Funnel",
+    "Addition Funnel",
+    "Separation Funnel",
+    "Griffin Beaker",
+    "Graduated Cylinder",
+    "Test Tube",
+    "Condenser",
+    "Watch Glass",
   ];
   const [category, setCategory] = useState(categories[0]);
   const [brand, setBrand] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     await fetch(API_URL, {
       method: "POST",
@@ -43,7 +43,7 @@ export default function CreateGlassware() {
         <input
           type="number"
           value={capacity}
-          onChange={(e) => setCapacity(e.target.value)}
+          onChange={e => setCapacity(e.target.value)}
           placeholder="Capacity (mL)"
         />
         <select value={category} onChange={e => setCategory(e.target.value)}>
@@ -55,7 +55,7 @@ export default function CreateGlassware() {
         </select>
         <input
           value={brand}
-          onChange={(e) => setBrand(e.target.value)}
+          onChange={e => setBrand(e.target.value)}
           placeholder="Brand"
         />
         <button type="submit">Save</button>
