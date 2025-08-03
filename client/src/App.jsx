@@ -27,10 +27,10 @@ function Sidebar() {
       <nav>
         <ul>
           <li>
-            <a href="#/">Dashboard</a>
+            <a href="/">Dashboard</a>
           </li>
           <li>
-            <a href="#/items">Items</a>
+            <a href="/items">Items</a>
           </li>
           <li>
             <a href="#">Settings</a>
@@ -51,14 +51,14 @@ function App() {
   }, []);
 
   const renderRoute = () => {
-    if (route.startsWith("#/items/") && route.endsWith("/edit")) {
+    if (route.startsWith("/items/") && route.endsWith("/edit")) {
       const id = route.split("/")[2];
       return <EditItem id={id} />;
     }
-    if (route === "#/items/new") {
+    if (route === "/items/new") {
       return <CreateItem />;
     }
-    if (route.startsWith("#/items/") && route.split("/").length === 3) {
+    if (route.startsWith("/items/") && route.split("/").length === 3) {
       const id = route.split("/")[2];
       return <ItemDetail id={id} />;
     }

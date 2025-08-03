@@ -16,9 +16,9 @@ export default function ItemsList() {
       .catch(() => setLoading(false));
   }, []);
 
-  const deleteItem = async (id) => {
+  const deleteItem = async id => {
     await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-    setItems(items.filter((i) => i._id !== id));
+    setItems(items.filter(i => i._id !== id));
   };
 
   if (loading) return <p>Loading...</p>;
@@ -26,12 +26,12 @@ export default function ItemsList() {
   return (
     <div>
       <h2>Items</h2>
-      <a href="#/items/new">Create Item</a>
+      <a href="/items/new">Create Item</a>
       <ul>
-        {items.map((item) => (
+        {items.map(item => (
           <li key={item._id}>
-            <a href={`#/items/${item._id}`}>{item.name}</a>{" "}
-            <a href={`#/items/${item._id}/edit`}>Edit</a>{" "}
+            <a href={`/items/${item._id}`}>{item.name}</a>{" "}
+            <a href={`/items/${item._id}/edit`}>Edit</a>{" "}
             <button onClick={() => deleteItem(item._id)}>Delete</button>
           </li>
         ))}

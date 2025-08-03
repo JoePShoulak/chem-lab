@@ -1,0 +1,8 @@
+{
+  "name": "codex-pruner",
+  "version": "1.0.0",
+  "scripts": {
+    "prune:codex": "bash -c \"git branch -r | grep 'origin/codex' | sed 's/origin\\///' | while read branch; do git push origin --delete \\\"$branch\\\"; git branch -D \\\"$branch\\\"; done\""
+  },
+  "license": "MIT"
+}

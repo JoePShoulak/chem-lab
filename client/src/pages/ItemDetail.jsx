@@ -22,8 +22,8 @@ export default function ItemDetail({ id }) {
   return (
     <div>
       <h2>{item.name}</h2>
-      <a href={`#/items/${id}/edit`}>Edit</a>{" "}
-      <a href="#/items">Back to list</a>
+      <a href={`/items/${id}/edit`}>Edit</a>
+      <a href="/items">Back to list</a>
     </div>
   );
 }

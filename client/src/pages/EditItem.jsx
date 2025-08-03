@@ -16,14 +16,14 @@ export default function EditItem({ id }) {
       .catch(() => setLoading(false));
   }, [id]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     await fetch(`${API_URL}/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name })
+      body: JSON.stringify({ name }),
     });
-    window.location.hash = `#/items/${id}`;
+    window.location.hash = `/items/${id}`;
   };
 
   if (loading) return <p>Loading...</p>;
@@ -32,10 +32,7 @@ export default function EditItem({ id }) {
     <div>
       <h2>Edit Item</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <input value={name} onChange={e => setName(e.target.value)} />
         <button type="submit">Update</button>
       </form>
     </div>
