@@ -1,5 +1,9 @@
-// client/src/App.jsx
+import { useEffect, useState } from "react";
 import "./App.scss";
+import ItemsList from "./pages/ItemsList";
+import ItemDetail from "./pages/ItemDetail";
+import CreateItem from "./pages/CreateItem";
+import EditItem from "./pages/EditItem";
 
 function Header() {
   return (
@@ -23,10 +27,10 @@ function Sidebar() {
       <nav>
         <ul>
           <li>
-            <a href="#">Dashboard</a>
+            <a href="#/">Dashboard</a>
           </li>
           <li>
-            <a href="#">Items</a>
+            <a href="#/items">Items</a>
           </li>
           <li>
             <a href="#">Settings</a>
@@ -38,15 +42,35 @@ function Sidebar() {
 }
 
 function App() {
+  const [route, setRoute] = useState(window.location.hash);
+
+  useEffect(() => {
+    const onHashChange = () => setRoute(window.location.hash);
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  const renderRoute = () => {
+    if (route.startsWith("#/items/") && route.endsWith("/edit")) {
+      const id = route.split("/")[2];
+      return <EditItem id={id} />;
+    }
+    if (route === "#/items/new") {
+      return <CreateItem />;
+    }
+    if (route.startsWith("#/items/") && route.split("/").length === 3) {
+      const id = route.split("/")[2];
+      return <ItemDetail id={id} />;
+    }
+    return <ItemsList />;
+  };
+
   return (
     <div className="app-container">
       <Header />
       <div className="app-body">
         <Sidebar />
-        <main className="app-content">
-          <h2>Welcome to the main content area</h2>
-          <p>This is where your page content will go.</p>
-        </main>
+        <main className="app-content">{renderRoute()}</main>
       </div>
       <Footer />
     </div>
