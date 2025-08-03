@@ -3,6 +3,17 @@ import sys
 import json
 import glob
 
+
+def _add_ord_schema_to_path():
+    """Add a local `ord-schema` clone to sys.path if present."""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    local_schema = os.path.join(script_dir, "ord-schema")
+    if os.path.isdir(local_schema) and local_schema not in sys.path:
+        sys.path.insert(0, local_schema)
+
+
+_add_ord_schema_to_path()
+
 try:
     from ord_schema import message_helpers
     from ord_schema.proto import dataset_pb2
