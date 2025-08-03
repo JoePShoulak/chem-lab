@@ -23,7 +23,7 @@ export default function GlasswareDetail() {
   if (!glass) return <p>Glassware not found.</p>;
 
   return (
-    <div>
+    <div className="glassware-detail">
       <h2>
         {glass.brand} {glass.category}
       </h2>

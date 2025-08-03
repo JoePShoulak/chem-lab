@@ -40,25 +40,32 @@ export default function CreateGlassware() {
   return (
     <div>
       <h2>Add Glassware</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="number"
-          value={capacity}
-          onChange={e => setCapacity(e.target.value)}
-          placeholder="Capacity (mL)"
-        />
-        <select value={category} onChange={e => setCategory(e.target.value)}>
-          {categories.map(c => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
-        <input
-          value={brand}
-          onChange={e => setBrand(e.target.value)}
-          placeholder="Brand"
-        />
+      <form className="glassware-form" onSubmit={handleSubmit}>
+        <label>
+          Capacity (mL)
+          <input
+            type="number"
+            value={capacity}
+            onChange={e => setCapacity(e.target.value)}
+          />
+        </label>
+        <label>
+          Category
+          <select value={category} onChange={e => setCategory(e.target.value)}>
+            {categories.map(c => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Brand
+          <input
+            value={brand}
+            onChange={e => setBrand(e.target.value)}
+          />
+        </label>
         <button type="submit">Save</button>
       </form>
     </div>

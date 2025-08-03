@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import "./Glassware.scss";
 
 const API_URLS = {
   all: "/api/inventory",
@@ -45,12 +46,16 @@ export default function Inventory() {
       {(type === "glassware" || type === "all") && (
         <Link to="/inventory/new">Add Glassware</Link>
       )}
-      <ul>
+      <ul className="glassware-list">
         {items.map(g => (
           <li key={g._id}>
-            <Link to={`/inventory/${g._id}`}>{g.brand} {g.category} ({g.capacity} mL)</Link>{" "}
-            <Link to={`/inventory/${g._id}/edit`}>Edit</Link>{" "}
-            <button onClick={() => deleteItem(g._id)}>Delete</button>
+            <Link to={`/inventory/${g._id}`}>
+              {g.brand} {g.category} ({g.capacity} mL)
+            </Link>
+            <div className="actions">
+              <Link to={`/inventory/${g._id}/edit`}>Edit</Link>
+              <button onClick={() => deleteItem(g._id)}>Delete</button>
+            </div>
           </li>
         ))}
       </ul>
