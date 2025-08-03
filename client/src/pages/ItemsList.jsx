@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const API_URL = "http://localhost:5000/items";
 
@@ -26,12 +27,12 @@ export default function ItemsList() {
   return (
     <div>
       <h2>Items</h2>
-      <a href="/items/new">Create Item</a>
+      <Link to="/items/new">Create Item</Link>
       <ul>
         {items.map(item => (
           <li key={item._id}>
-            <a href={`/items/${item._id}`}>{item.name}</a>{" "}
-            <a href={`/items/${item._id}/edit`}>Edit</a>{" "}
+            <Link to={`/items/${item._id}`}>{item.name}</Link>{" "}
+            <Link to={`/items/${item._id}/edit`}>Edit</Link>{" "}
             <button onClick={() => deleteItem(item._id)}>Delete</button>
           </li>
         ))}

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const API_URL = "http://localhost:5000/items";
 
-export default function ItemDetail({ id }) {
+export default function ItemDetail() {
+  const { id } = useParams();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -22,8 +24,8 @@ export default function ItemDetail({ id }) {
   return (
     <div>
       <h2>{item.name}</h2>
-      <a href={`/items/${id}/edit`}>Edit</a>
-      <a href="/items">Back to list</a>
+      <Link to={`/items/${id}/edit`}>Edit</Link>
+      <Link to="/items">Back to list</Link>
     </div>
   );
 }

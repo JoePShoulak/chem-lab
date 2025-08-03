@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "http://localhost:5000/items";
 
 export default function CreateItem() {
   const [name, setName] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -12,7 +14,7 @@ export default function CreateItem() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name })
     });
-    window.location.hash = "#/items";
+    navigate("/items");
   };
 
   return (

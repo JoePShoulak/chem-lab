@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Link, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import ItemsList from "./pages/ItemsList";
 import ItemDetail from "./pages/ItemDetail";
@@ -28,13 +28,13 @@ function Sidebar() {
       <nav>
         <ul>
           <li>
-            <a href="#/">Dashboard</a>
+            <Link to="/">Dashboard</Link>
           </li>
           <li>
-            <a href="#/items">Items</a>
+            <Link to="/items">Items</Link>
           </li>
           <li>
-            <a href="#/settings">Settings</a>
+            <Link to="/settings">Settings</Link>
           </li>
         </ul>
       </nav>
@@ -47,19 +47,19 @@ function NavBar() {
     <nav className="app-nav">
       <ul>
         <li>
-          <a href="#/">Home</a>
+          <Link to="/">Home</Link>
         </li>
         <li>
-          <a href="#/reference">Reference</a>
+          <Link to="/reference">Reference</Link>
         </li>
         <li>
-          <a href="#/items">Inventory</a>
+          <Link to="/items">Inventory</Link>
         </li>
         <li>
-          <a href="#/reactions">Reactions</a>
+          <Link to="/reactions">Reactions</Link>
         </li>
         <li>
-          <a href="#/experiments">Experiments</a>
+          <Link to="/experiments">Experiments</Link>
         </li>
       </ul>
     </nav>
@@ -67,48 +67,24 @@ function NavBar() {
 }
 
 function App() {
-  const [route, setRoute] = useState(window.location.hash);
-
-  useEffect(() => {
-    const onHashChange = () => setRoute(window.location.hash);
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
-  }, []);
-
-  const renderRoute = () => {
-    if (route.startsWith("#/items/") && route.endsWith("/edit")) {
-      const id = route.split("/")[2];
-      return <EditItem id={id} />;
-    }
-    if (route === "#/items/new") {
-      return <CreateItem />;
-    }
-    if (route.startsWith("#/items/") && route.split("/").length === 3) {
-      const id = route.split("/")[2];
-      return <ItemDetail id={id} />;
-    }
-    if (route === "#/reference") {
-      return <Reference />;
-    }
-    if (
-      route === "#/items" ||
-      route === "#/inventory" ||
-      route === "#/" ||
-      route === "" ||
-      route === "#"
-    ) {
-      return <ItemsList />;
-    }
-    return <ItemsList />;
-  };
-
   return (
     <div className="app-container">
       <Header />
       <NavBar />
       <div className="app-body">
         <Sidebar />
-        <main className="app-content">{renderRoute()}</main>
+        <main className="app-content">
+          <Routes>
+            <Route path="/" element={<ItemsList />} />
+            <Route path="/items" element={<ItemsList />} />
+            <Route path="/inventory" element={<ItemsList />} />
+            <Route path="/items/new" element={<CreateItem />} />
+            <Route path="/items/:id" element={<ItemDetail />} />
+            <Route path="/items/:id/edit" element={<EditItem />} />
+            <Route path="/reference" element={<Reference />} />
+            <Route path="*" element={<ItemsList />} />
+          </Routes>
+        </main>
       </div>
       <Footer />
     </div>
