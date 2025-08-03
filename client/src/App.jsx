@@ -1,6 +1,6 @@
 import { Link, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import "./App.scss";
-import GlasswareList from "./pages/GlasswareList";
+import Inventory from "./pages/Inventory";
 import GlasswareDetail from "./pages/GlasswareDetail";
 import CreateGlassware from "./pages/CreateGlassware";
 import EditGlassware from "./pages/EditGlassware";
@@ -17,8 +17,16 @@ function Header() {
 function Footer() {
   return (
     <footer className="app-footer">
-      <p>© 2025 Joe Shoulak</p>
+      <p>Joe Shoulak © 2025</p>
     </footer>
+  );
+}
+
+function MyLink({ to, children }) {
+  return (
+    <li>
+      <Link to={to}>{children}</Link>
+    </li>
   );
 }
 
@@ -27,15 +35,11 @@ function Sidebar() {
     <aside className="app-sidebar">
       <nav>
         <ul>
-          <li>
-            <Link to="/">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/inventory">Inventory</Link>
-          </li>
-          <li>
-            <Link to="/settings">Settings</Link>
-          </li>
+          <MyLink to="/inventory?type=all">All</MyLink>
+          <MyLink to="/inventory?type=glassware">Glassware</MyLink>
+          <MyLink to="/inventory?type=ppe">PPE</MyLink>
+          <MyLink to="/inventory?type=equipment">Equipment</MyLink>
+          <MyLink to="/inventory?type=chemicals">Chemicals</MyLink>
         </ul>
       </nav>
     </aside>
@@ -46,21 +50,11 @@ function NavBar() {
   return (
     <nav className="app-nav">
       <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/reference">Reference</Link>
-        </li>
-        <li>
-          <Link to="/inventory">Inventory</Link>
-        </li>
-        <li>
-          <Link to="/reactions">Reactions</Link>
-        </li>
-        <li>
-          <Link to="/experiments">Experiments</Link>
-        </li>
+        <MyLink to="/">Home</MyLink>
+        <MyLink to="/reference">Reference</MyLink>
+        <MyLink to="/inventory">Inventory</MyLink>
+        <MyLink to="/reactions">Reactions</MyLink>
+        <MyLink to="/experiments">Experiments</MyLink>
       </ul>
     </nav>
   );
@@ -77,7 +71,7 @@ function App() {
         <main className="app-content">
           <Routes>
             <Route path="/" element={<Navigate to="/inventory" replace />} />
-            <Route path="/inventory" element={<GlasswareList />} />
+            <Route path="/inventory" element={<Inventory />} />
             <Route path="/inventory/new" element={<CreateGlassware />} />
             <Route path="/inventory/:id" element={<GlasswareDetail />} />
             <Route path="/inventory/:id/edit" element={<EditGlassware />} />

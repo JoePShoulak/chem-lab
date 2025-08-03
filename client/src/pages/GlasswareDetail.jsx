@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./Glassware.scss";
 
-const API_URL = "http://localhost:5000/glassware";
+const API_URL = "/api/glassware";
 
 export default function GlasswareDetail() {
   const { id } = useParams();
@@ -23,8 +23,10 @@ export default function GlasswareDetail() {
   if (!glass) return <p>Glassware not found.</p>;
 
   return (
-    <div className="glassware-detail">
-      <h2>{glass.brand} {glass.shape}</h2>
+    <div>
+      <h2>
+        {glass.brand} {glass.category}
+      </h2>
       <p>Capacity: {glass.capacity} mL</p>
       <div className="actions">
         <Link to={`/inventory/${id}/edit`}>Edit</Link>

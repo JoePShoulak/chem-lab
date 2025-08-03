@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const glasswareRouter = require("./routes/glassware");
+const inventoryRouter = require("./routes/inventory");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,7 +18,9 @@ app.use(
 );
 
 app.use(express.json());
-app.use("/glassware", glasswareRouter);
+// Support both new `/api/*` endpoints and legacy paths without the prefix
+app.use(["/api/glassware", "/glassware"], glasswareRouter);
+app.use(["/api/inventory", "/inventory"], inventoryRouter);
 
 mongoose
   .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })

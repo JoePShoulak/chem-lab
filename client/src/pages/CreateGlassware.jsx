@@ -2,22 +2,35 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Glassware.scss";
 
-const API_URL = "http://localhost:5000/glassware";
+const API_URL = "/api/glassware";
 
 export default function CreateGlassware() {
   const [capacity, setCapacity] = useState("");
-  const [shape, setShape] = useState("");
+  const categories = [
+    "Boiling Flask",
+    "Erlenmeyer Flask",
+    "Griffin Beaker",
+    "Graduated Cylinder",
+    "Addition Funnel",
+    "Separation Funnel",
+    "Filtering Funnel",
+    "Filtering Flask",
+    "Test Tube",
+    "Condenser",
+    "Watch Glass",
+  ];
+  const [category, setCategory] = useState(categories[0]);
   const [brand, setBrand] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         capacity: Number(capacity),
-        shape,
+        category,
         brand,
       }),
     });
@@ -27,29 +40,25 @@ export default function CreateGlassware() {
   return (
     <div>
       <h2>Add Glassware</h2>
-      <form onSubmit={handleSubmit} className="glassware-form">
-        <label>
-          Capacity (mL)
-          <input
-            type="number"
-            value={capacity}
-            onChange={(e) => setCapacity(e.target.value)}
-          />
-        </label>
-        <label>
-          Shape
-          <input
-            value={shape}
-            onChange={(e) => setShape(e.target.value)}
-          />
-        </label>
-        <label>
-          Brand
-          <input
-            value={brand}
-            onChange={(e) => setBrand(e.target.value)}
-          />
-        </label>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="number"
+          value={capacity}
+          onChange={e => setCapacity(e.target.value)}
+          placeholder="Capacity (mL)"
+        />
+        <select value={category} onChange={e => setCategory(e.target.value)}>
+          {categories.map(c => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+        <input
+          value={brand}
+          onChange={e => setBrand(e.target.value)}
+          placeholder="Brand"
+        />
         <button type="submit">Save</button>
       </form>
     </div>
