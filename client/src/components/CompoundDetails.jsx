@@ -12,6 +12,9 @@ export default function CompoundDetails({ compound }) {
   const weight = getProp(compound, "Molecular Weight")?.sval;
   const inchi = getProp(compound, "InChI", "Standard")?.sval;
   const smiles = getProp(compound, "SMILES", "Absolute")?.sval;
+  const pubchemUrl = cid
+    ? `https://pubchem.ncbi.nlm.nih.gov/compound/${cid}`
+    : null;
 
   function Prop({ label, value }) {
     return (
@@ -52,6 +55,13 @@ export default function CompoundDetails({ compound }) {
               {cid && <Prop label="CID" value={cid} />}
             </tbody>
           </table>
+          {pubchemUrl && (
+            <p className="pubchem-link">
+              <a href={pubchemUrl} target="_blank" rel="noopener noreferrer">
+                View more on PubChem
+              </a>
+            </p>
+          )}
         </div>
       </div>
     </div>

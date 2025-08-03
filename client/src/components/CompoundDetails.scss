@@ -65,6 +65,19 @@
           word-break: break-all;
         }
       }
+
+      .pubchem-link {
+        margin-top: 1rem;
+
+        a {
+          color: #0b3d91;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
     }
   }
 }
