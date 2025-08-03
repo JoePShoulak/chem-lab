@@ -75,29 +75,32 @@ function App() {
     <div className="app-container">
       <Header />
       <NavBar />
+
       <div className="app-body">
         {location.pathname === "/inventory" && <Sidebar />}
         <main className="app-content">
           <Routes>
             <Route path="/" element={<Navigate to="/inventory" replace />} />
             <Route path="/inventory" element={<Inventory />} />
+
             <Route path="/glassware/new" element={<CreateGlassware />} />
             <Route path="/glassware/:id" element={<GlasswareDetail />} />
             <Route path="/glassware/:id/edit" element={<EditGlassware />} />
+
             <Route path="/ppe/new" element={<CreatePPE />} />
             <Route path="/ppe/:id" element={<PPEDetail />} />
             <Route path="/ppe/:id/edit" element={<EditPPE />} />
+
             <Route path="/equipment/new" element={<CreateEquipment />} />
             <Route path="/equipment/:id" element={<EquipmentDetail />} />
             <Route path="/equipment/:id/edit" element={<EditEquipment />} />
-            <Route path="/chemicals/new" element={<CreateChemical />} />
-            <Route path="/chemicals/:id" element={<ChemicalDetail />} />
-            <Route path="/chemicals/:id/edit" element={<EditChemical />} />
+
             <Route path="/reference" element={<Reference />} />
             <Route path="*" element={<Navigate to="/inventory" replace />} />
           </Routes>
         </main>
       </div>
+
       <Footer />
     </div>
   );
