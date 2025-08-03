@@ -81,9 +81,11 @@ router.get("/lookup/:name", async (req, res) => {
             console.log("RSC results not JSON:", rscIdsText);
           }
           if (Array.isArray(rscIds?.results) && rscIds.results.length) {
+            const fields =
+              "nominalMass,CommonName,formula,InChI,InChIkey,smiles";
             const recordPromises = rscIds.results.map(id =>
               fetch(
-                `https://api.rsc.org/compounds/v1/records/${id}/details`,
+                `https://api.rsc.org/compounds/v1/records/${id}/details?fields=${fields}`,
                 {
                   headers: {
                     apikey: process.env.RSC_KEY,
