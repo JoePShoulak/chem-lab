@@ -17,8 +17,16 @@ function Header() {
 function Footer() {
   return (
     <footer className="app-footer">
-      <p>© 2025 Joe Shoulak</p>
+      <p>Joe Shoulak © 2025</p>
     </footer>
+  );
+}
+
+function MyLink({ to, children }) {
+  return (
+    <li>
+      <Link to={to}>{children}</Link>
+    </li>
   );
 }
 
@@ -27,21 +35,11 @@ function Sidebar() {
     <aside className="app-sidebar">
       <nav>
         <ul>
-          <li>
-            <Link to="/inventory?type=all">All</Link>
-          </li>
-          <li>
-            <Link to="/inventory?type=glassware">Glassware</Link>
-          </li>
-          <li>
-            <Link to="/inventory?type=ppe">PPE</Link>
-          </li>
-          <li>
-            <Link to="/inventory?type=equipment">Equipment</Link>
-          </li>
-          <li>
-            <Link to="/inventory?type=chemicals">Chemicals</Link>
-          </li>
+          <MyLink to="/inventory?type=all">All</MyLink>
+          <MyLink to="/inventory?type=glassware">Glassware</MyLink>
+          <MyLink to="/inventory?type=ppe">PPE</MyLink>
+          <MyLink to="/inventory?type=equipment">Equipment</MyLink>
+          <MyLink to="/inventory?type=chemicals">Chemicals</MyLink>
         </ul>
       </nav>
     </aside>
@@ -52,21 +50,11 @@ function NavBar() {
   return (
     <nav className="app-nav">
       <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/reference">Reference</Link>
-        </li>
-        <li>
-          <Link to="/inventory">Inventory</Link>
-        </li>
-        <li>
-          <Link to="/reactions">Reactions</Link>
-        </li>
-        <li>
-          <Link to="/experiments">Experiments</Link>
-        </li>
+        <MyLink to="/">Home</MyLink>
+        <MyLink to="/reference">Reference</MyLink>
+        <MyLink to="/inventory">Inventory</MyLink>
+        <MyLink to="/reactions">Reactions</MyLink>
+        <MyLink to="/experiments">Experiments</MyLink>
       </ul>
     </nav>
   );

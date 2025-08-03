@@ -6,7 +6,7 @@ export default function Reference() {
   const [name, setName] = useState("");
   const [compound, setCompound] = useState(null);
   const [error, setError] = useState(null);
-  const pubchem = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/";
+  const pubchem = "https://pubchem.ncbi.nlm.nih.gov/rest/pug";
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -14,8 +14,9 @@ export default function Reference() {
     setCompound(null);
     try {
       const response = await fetch(
-        `${pubchem}compound/name/${encodeURIComponent(name)}/JSON`
+        `${pubchem}/compound/name/${encodeURIComponent(name)}/JSON`
       );
+
       if (!response.ok) throw new Error("No compound found");
 
       const data = await response.json();
