@@ -21,6 +21,7 @@ router.post('/', async (req, res) => {
       // Accept legacy `shape` field but prefer the new `category`
       category: req.body.category || req.body.shape,
       brand: req.body.brand,
+      notes: req.body.notes,
     });
     const saved = await glass.save();
     res.status(201).json(saved);
@@ -50,6 +51,7 @@ router.put('/:id', async (req, res) => {
         // Accept either `category` or legacy `shape`
         category: req.body.category || req.body.shape,
         brand: req.body.brand,
+        notes: req.body.notes,
       },
       { new: true, runValidators: true }
     );

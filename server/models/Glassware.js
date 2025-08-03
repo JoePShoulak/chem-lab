@@ -19,7 +19,8 @@ const GlasswareSchema = new mongoose.Schema({
       'Watch Glass',
     ],
   },
-  brand: { type: String, required: true }
+  brand: { type: String, required: true },
+  notes: { type: String },
 });
 
 module.exports = mongoose.model('Glassware', GlasswareSchema);

@@ -24,6 +24,7 @@ export default function CreateGlassware() {
   ];
   const [category, setCategory] = useState(categories[0]);
   const [brand, setBrand] = useState("");
+  const [notes, setNotes] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async e => {
@@ -35,6 +36,7 @@ export default function CreateGlassware() {
         capacity: Number(capacity),
         category,
         brand,
+        notes,
       }),
     });
     navigate("/inventory?type=glassware");
@@ -65,6 +67,10 @@ export default function CreateGlassware() {
         <label>
           Brand
           <input value={brand} onChange={e => setBrand(e.target.value)} />
+        </label>
+        <label>
+          Notes
+          <textarea value={notes} onChange={e => setNotes(e.target.value)} />
         </label>
         <button type="submit">Save</button>
       </form>

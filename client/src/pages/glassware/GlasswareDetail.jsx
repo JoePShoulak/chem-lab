@@ -28,6 +28,7 @@ export default function GlasswareDetail() {
         {glass.brand} {glass.category}
       </h2>
       <p>Capacity: {glass.capacity} mL</p>
+      {glass.notes && <p>Notes: {glass.notes}</p>}
       <div className="actions">
         <Link to={`/glassware/${id}/edit`}>Edit</Link>
         <Link to="/inventory?type=glassware">Back to list</Link>

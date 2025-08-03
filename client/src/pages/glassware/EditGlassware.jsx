@@ -26,6 +26,7 @@ export default function EditGlassware() {
   ];
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
+  const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function EditGlassware() {
         setCapacity(data.capacity || "");
         setCategory(data.category || "");
         setBrand(data.brand || "");
+        setNotes(data.notes || "");
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -49,6 +51,7 @@ export default function EditGlassware() {
         capacity: Number(capacity),
         category,
         brand,
+        notes,
       }),
     });
     navigate(`/glassware/${id}`);
@@ -81,6 +84,10 @@ export default function EditGlassware() {
         <label>
           Brand
           <input value={brand} onChange={e => setBrand(e.target.value)} />
+        </label>
+        <label>
+          Notes
+          <textarea value={notes} onChange={e => setNotes(e.target.value)} />
         </label>
         <button type="submit">Update</button>
       </form>
