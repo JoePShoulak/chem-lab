@@ -30,6 +30,23 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Lookup compound details via PubChem
+router.get('/lookup/:name', async (req, res) => {
+  try {
+    const url = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(
+      req.params.name
+    )}/JSON`;
+    const response = await fetch(url);
+    if (!response.ok) return res.status(404).json({ error: 'No compound found' });
+    const data = await response.json();
+    const compound = data?.PC_Compounds?.[0];
+    if (!compound) return res.status(404).json({ error: 'No compound found' });
+    res.json(compound);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch compound' });
+  }
+});
+
 // Get chemical by id
 router.get('/:id', async (req, res) => {
   try {
