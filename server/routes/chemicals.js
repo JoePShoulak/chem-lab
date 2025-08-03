@@ -63,7 +63,23 @@ router.get("/lookup/:name", async (req, res) => {
           }
         );
         const rscData = await rscResponse.json();
-        console.log("RSC response:", rscData);
+        if (rscData?.queryId) {
+          const rscResultsResponse = await fetch(
+            `https://api.rsc.org/compounds/v1/records/${rscData.queryId}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                apikey: process.env.RSC_KEY,
+              },
+              body: JSON.stringify({}),
+            }
+          );
+          const rscResults = await rscResultsResponse.json();
+          console.log("RSC data:", rscResults);
+        } else {
+          console.log("RSC response:", rscData);
+        }
       } catch (e) {
         console.error("RSC lookup failed:", e);
       }
