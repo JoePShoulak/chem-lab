@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { navigate } from "../navigation";
 
 const API_URL = "http://localhost:5000/items";
 
@@ -22,8 +23,24 @@ export default function ItemDetail({ id }) {
   return (
     <div>
       <h2>{item.name}</h2>
-      <a href={`/items/${id}/edit`}>Edit</a>
-      <a href="/items">Back to list</a>
+      <a
+        href={`/items/${id}/edit`}
+        onClick={e => {
+          e.preventDefault();
+          navigate(`/items/${id}/edit`);
+        }}
+      >
+        Edit
+      </a>
+      <a
+        href="/items"
+        onClick={e => {
+          e.preventDefault();
+          navigate("/items");
+        }}
+      >
+        Back to list
+      </a>
     </div>
   );
 }

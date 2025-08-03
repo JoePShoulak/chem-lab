@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { navigate } from "../navigation";
 
 const API_URL = "http://localhost:5000/items";
 
@@ -23,7 +24,7 @@ export default function EditItem({ id }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name }),
     });
-    window.location.hash = `/items/${id}`;
+    navigate(`/items/${id}`);
   };
 
   if (loading) return <p>Loading...</p>;

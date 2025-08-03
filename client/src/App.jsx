@@ -4,6 +4,7 @@ import ItemsList from "./pages/ItemsList";
 import ItemDetail from "./pages/ItemDetail";
 import CreateItem from "./pages/CreateItem";
 import EditItem from "./pages/EditItem";
+import { navigate } from "./navigation";
 
 function Header() {
   return (
@@ -27,13 +28,37 @@ function Sidebar() {
       <nav>
         <ul>
           <li>
-            <a href="/">Dashboard</a>
+            <a
+              href="/"
+              onClick={e => {
+                e.preventDefault();
+                navigate("/");
+              }}
+            >
+              Dashboard
+            </a>
           </li>
           <li>
-            <a href="/items">Items</a>
+            <a
+              href="/items"
+              onClick={e => {
+                e.preventDefault();
+                navigate("/items");
+              }}
+            >
+              Items
+            </a>
           </li>
           <li>
-            <a href="#">Settings</a>
+            <a
+              href="/settings"
+              onClick={e => {
+                e.preventDefault();
+                navigate("/settings");
+              }}
+            >
+              Settings
+            </a>
           </li>
         </ul>
       </nav>
@@ -42,12 +67,12 @@ function Sidebar() {
 }
 
 function App() {
-  const [route, setRoute] = useState(window.location.hash);
+  const [route, setRoute] = useState(window.location.pathname);
 
   useEffect(() => {
-    const onHashChange = () => setRoute(window.location.hash);
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
+    const onLocationChange = () => setRoute(window.location.pathname);
+    window.addEventListener("popstate", onLocationChange);
+    return () => window.removeEventListener("popstate", onLocationChange);
   }, []);
 
   const renderRoute = () => {

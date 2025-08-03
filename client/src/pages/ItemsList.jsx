@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { navigate } from "../navigation";
 
 const API_URL = "http://localhost:5000/items";
 
@@ -26,12 +27,36 @@ export default function ItemsList() {
   return (
     <div>
       <h2>Items</h2>
-      <a href="/items/new">Create Item</a>
+      <a
+        href="/items/new"
+        onClick={e => {
+          e.preventDefault();
+          navigate("/items/new");
+        }}
+      >
+        Create Item
+      </a>
       <ul>
         {items.map(item => (
           <li key={item._id}>
-            <a href={`/items/${item._id}`}>{item.name}</a>{" "}
-            <a href={`/items/${item._id}/edit`}>Edit</a>{" "}
+            <a
+              href={`/items/${item._id}`}
+              onClick={e => {
+                e.preventDefault();
+                navigate(`/items/${item._id}`);
+              }}
+            >
+              {item.name}
+            </a>{" "}
+            <a
+              href={`/items/${item._id}/edit`}
+              onClick={e => {
+                e.preventDefault();
+                navigate(`/items/${item._id}/edit`);
+              }}
+            >
+              Edit
+            </a>{" "}
             <button onClick={() => deleteItem(item._id)}>Delete</button>
           </li>
         ))}

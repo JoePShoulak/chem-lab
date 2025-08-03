@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { navigate } from "../navigation";
 
 const API_URL = "http://localhost:5000/items";
 
@@ -12,7 +13,7 @@ export default function CreateItem() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name })
     });
-    window.location.hash = "#/items";
+    navigate("/items");
   };
 
   return (
