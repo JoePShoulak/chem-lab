@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 const API_URLS = {
-  all: "http://localhost:5000/inventory",
-  glassware: "http://localhost:5000/glassware",
+  all: "http://localhost:5000/api/inventory",
+  glassware: "http://localhost:5000/api/glassware",
 };
 
 export default function Inventory() {

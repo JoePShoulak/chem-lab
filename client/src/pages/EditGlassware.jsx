@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const API_URL = "http://localhost:5000/glassware";
+const API_URL = "http://localhost:5000/api/glassware";
 
 export default function EditGlassware() {
   const { id } = useParams();

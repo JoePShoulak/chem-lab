@@ -18,8 +18,8 @@ app.use(
 );
 
 app.use(express.json());
-app.use("/glassware", glasswareRouter);
-app.use("/inventory", inventoryRouter);
+app.use("/api/glassware", glasswareRouter);
+app.use("/api/inventory", inventoryRouter);
 
 mongoose
   .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
