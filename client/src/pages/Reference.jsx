@@ -17,10 +17,12 @@ export default function Reference() {
         `${pubchem}compound/name/${encodeURIComponent(name)}/JSON`
       );
       if (!response.ok) throw new Error("No compound found");
+
       const data = await response.json();
-      console.log(data);
       const compoundData = data?.PC_Compounds?.[0];
+
       if (!compoundData) throw new Error("No compound found");
+
       setCompound(compoundData);
     } catch (err) {
       setError(err.message);

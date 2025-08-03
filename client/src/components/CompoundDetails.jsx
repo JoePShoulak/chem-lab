@@ -2,7 +2,7 @@
 import "./CompoundDetails.scss";
 
 const getProp = (compound, label, name) =>
-  compound.props.find(p => p.urn.label === label && p.urn.name === name).value;
+  compound.props.find(p => p.urn.label === label && p.urn.name === name)?.value;
 
 export default function CompoundDetails({ compound }) {
   const cid = compound?.id?.id?.cid;
