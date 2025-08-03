@@ -4,6 +4,7 @@ import ItemsList from "./pages/ItemsList";
 import ItemDetail from "./pages/ItemDetail";
 import CreateItem from "./pages/CreateItem";
 import EditItem from "./pages/EditItem";
+import Reference from "./pages/Reference";
 
 function Header() {
   return (
@@ -27,17 +28,41 @@ function Sidebar() {
       <nav>
         <ul>
           <li>
-            <a href="/">Dashboard</a>
+            <a href="#/">Dashboard</a>
           </li>
           <li>
-            <a href="/items">Items</a>
+            <a href="#/items">Items</a>
           </li>
           <li>
-            <a href="#">Settings</a>
+            <a href="#/settings">Settings</a>
           </li>
         </ul>
       </nav>
     </aside>
+  );
+}
+
+function NavBar() {
+  return (
+    <nav className="app-nav">
+      <ul>
+        <li>
+          <a href="#/">Home</a>
+        </li>
+        <li>
+          <a href="#/reference">Reference</a>
+        </li>
+        <li>
+          <a href="#/items">Inventory</a>
+        </li>
+        <li>
+          <a href="#/reactions">Reactions</a>
+        </li>
+        <li>
+          <a href="#/experiments">Experiments</a>
+        </li>
+      </ul>
+    </nav>
   );
 }
 
@@ -51,16 +76,28 @@ function App() {
   }, []);
 
   const renderRoute = () => {
-    if (route.startsWith("/items/") && route.endsWith("/edit")) {
+    if (route.startsWith("#/items/") && route.endsWith("/edit")) {
       const id = route.split("/")[2];
       return <EditItem id={id} />;
     }
-    if (route === "/items/new") {
+    if (route === "#/items/new") {
       return <CreateItem />;
     }
-    if (route.startsWith("/items/") && route.split("/").length === 3) {
+    if (route.startsWith("#/items/") && route.split("/").length === 3) {
       const id = route.split("/")[2];
       return <ItemDetail id={id} />;
+    }
+    if (route === "#/reference") {
+      return <Reference />;
+    }
+    if (
+      route === "#/items" ||
+      route === "#/inventory" ||
+      route === "#/" ||
+      route === "" ||
+      route === "#"
+    ) {
+      return <ItemsList />;
     }
     return <ItemsList />;
   };
@@ -68,6 +105,7 @@ function App() {
   return (
     <div className="app-container">
       <Header />
+      <NavBar />
       <div className="app-body">
         <Sidebar />
         <main className="app-content">{renderRoute()}</main>

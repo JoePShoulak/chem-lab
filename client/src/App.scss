@@ -28,6 +28,31 @@ body, html, #root {
     text-align: center;
   }
 
+  .app-nav {
+    background-color: $blue-mid;
+    padding: 0.5rem 1rem;
+
+    ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin-right: 1rem;
+
+        a {
+          color: $text-light;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
   .app-body {
     display: flex;
     flex: 1;
