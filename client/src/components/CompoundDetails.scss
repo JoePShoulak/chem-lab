@@ -1,0 +1,70 @@
+.compound-card {
+  background: #f8fbff;
+  border: 1px solid #c3d7ef;
+  border-radius: 10px;
+  padding: 1.5rem;
+  max-width: 800px;
+  margin: auto;
+  box-shadow: 0 4px 12px rgba(0, 60, 130, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+
+  .compound-header {
+    border-bottom: 1px solid #dde8f2;
+    margin-bottom: 1rem;
+
+    h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #0b3d91;
+    }
+
+    .formula {
+      font-size: 1.1rem;
+      color: #444;
+    }
+  }
+
+  .compound-body {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+
+    .structure-img {
+      flex: 0 0 auto;
+      img {
+        border: 1px solid #ccc;
+        background: white;
+        padding: 0.5rem;
+        max-width: 200px;
+        height: auto;
+      }
+    }
+
+    .compound-info {
+      flex: 1;
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th {
+          text-align: left;
+          padding: 0.5rem 0;
+          color: #1d3557;
+          white-space: nowrap;
+          vertical-align: top;
+        }
+
+        td {
+          padding: 0.5rem 0;
+          word-break: break-word;
+          color: #333;
+        }
+
+        .break {
+          word-break: break-all;
+        }
+      }
+    }
+  }
+}

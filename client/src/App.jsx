@@ -9,7 +9,7 @@ import Reference from "./pages/Reference";
 function Header() {
   return (
     <header className="app-header">
-      <h1>My App Header</h1>
+      <h1>Chem Lab</h1>
     </header>
   );
 }
@@ -17,7 +17,7 @@ function Header() {
 function Footer() {
   return (
     <footer className="app-footer">
-      <p>© 2025 My App</p>
+      <p>© 2025 Joe Shoulak</p>
     </footer>
   );
 }
