@@ -2,16 +2,20 @@
 import "./CompoundDetails.scss";
 
 const getProp = (compound, label, name) =>
-  compound.props.find(p => p.urn.label === label && p.urn.name === name)?.value;
+  compound?.props?.find(p => p.urn.label === label && p.urn.name === name)?.value;
 
-export default function CompoundDetails({ compound }) {
+export default function CompoundDetails({ info }) {
+  const compound = info?.compound;
+  const { appearance, stability, meltingPoint, boilingPoint, smiles: canonicalSmiles } =
+    info || {};
+
   const cid = compound?.id?.id?.cid;
   const iupacName = getProp(compound, "IUPAC Name", "Systematic")?.sval;
   const tradName = getProp(compound, "IUPAC Name", "Traditional")?.sval;
   const formula = getProp(compound, "Molecular Formula")?.sval;
   const weight = getProp(compound, "Molecular Weight")?.sval;
   const inchi = getProp(compound, "InChI", "Standard")?.sval;
-  const smiles = getProp(compound, "SMILES", "Absolute")?.sval;
+  const smiles = canonicalSmiles || getProp(compound, "SMILES", "Absolute")?.sval;
 
   function Prop({ label, value }) {
     return (
@@ -50,6 +54,10 @@ export default function CompoundDetails({ compound }) {
               {inchi && <Prop label="InChI" value={inchi} />}
               {smiles && <Prop label="SMILES" value={smiles} />}
               {cid && <Prop label="CID" value={cid} />}
+              {appearance && <Prop label="Appearance" value={appearance} />}
+              {stability && <Prop label="Stability" value={stability} />}
+              {meltingPoint && <Prop label="Melting Point" value={meltingPoint} />}
+              {boilingPoint && <Prop label="Boiling Point" value={boilingPoint} />}
             </tbody>
           </table>
         </div>

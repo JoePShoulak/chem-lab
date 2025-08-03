@@ -2,18 +2,34 @@ const express = require('express');
 
 const router = express.Router();
 
-// Look up chemical details using PubChem and RSC APIs
+// Look up chemical details using PubChem for base information and SMILES,
+// then enrich with additional characteristics from the RSC API
 router.get('/:name', async (req, res) => {
   try {
     const name = req.params.name;
-    // Fetch SMILES from PubChem
+
+    // Fetch full compound details from PubChem
     const pubChemRes = await fetch(
-      `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(name)}/property/CanonicalSMILES/JSON`
+      `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(name)}/JSON`
     );
     if (!pubChemRes.ok)
       return res.status(404).json({ error: 'Chemical not found in PubChem' });
     const pubChemData = await pubChemRes.json();
-    const smiles = pubChemData?.PropertyTable?.Properties?.[0]?.CanonicalSMILES;
+    const compound = pubChemData?.PC_Compounds?.[0];
+    if (!compound)
+      return res.status(404).json({ error: 'Chemical not found in PubChem' });
+
+    // Helper to pull a property from the PubChem response
+    const getProp = (label, propName) =>
+      compound.props?.find(
+        p => p.urn.label === label && p.urn.name === propName
+      )?.value?.sval;
+
+    // SMILES is required for the RSC lookup
+    const smiles =
+      getProp('SMILES', 'Canonical') ||
+      getProp('SMILES', 'Isomeric') ||
+      getProp('SMILES', 'Absolute');
     if (!smiles)
       return res.status(404).json({ error: 'SMILES information not available' });
 
@@ -52,6 +68,7 @@ router.get('/:name', async (req, res) => {
     const detailData = await detailRes.json();
 
     res.json({
+      compound,
       smiles,
       appearance: detailData.appearance,
       stability: detailData.stability,

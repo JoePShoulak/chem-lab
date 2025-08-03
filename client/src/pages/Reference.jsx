@@ -5,29 +5,23 @@ import "./Reference.scss";
 
 export default function Reference() {
   const [name, setName] = useState("");
-  const [compound, setCompound] = useState(null);
+  const [info, setInfo] = useState(null);
   const [error, setError] = useState(null);
-  const pubchem = "https://pubchem.ncbi.nlm.nih.gov/rest/pug";
-  // TODO: Get physical characteristics like boiling and melting point from somewhere like: https://www.chemspider.com/
-  // TODO: Get related reactions from somewhere like: https://docs.open-reaction-database.org/
+  const API_URL = "/api/chemical-info";
 
   const handleSubmit = async e => {
     e.preventDefault();
     setError(null);
-    setCompound(null);
+    setInfo(null);
     try {
       const response = await fetch(
-        `${pubchem}/compound/name/${encodeURIComponent(name)}/JSON`
+        `${API_URL}/${encodeURIComponent(name)}`
       );
 
       if (!response.ok) throw new Error("No compound found");
 
       const data = await response.json();
-      const compoundData = data?.PC_Compounds?.[0];
-
-      if (!compoundData) throw new Error("No compound found");
-
-      setCompound(compoundData);
+      setInfo(data);
     } catch (err) {
       setError(err.message);
     }
@@ -49,7 +43,7 @@ export default function Reference() {
       </form>
 
       {error && <p className="error">{error}</p>}
-      {compound && <CompoundDetails compound={compound} />}
+      {info && <CompoundDetails info={info} />}
     </div>
   );
 }
