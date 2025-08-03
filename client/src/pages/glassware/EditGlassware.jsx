@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "./Glassware.scss";
 
 const API_URL = "/api/glassware";
 
-export default function CreateGlassware() {
+export default function EditGlassware() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [capacity, setCapacity] = useState("");
   const categories = [
     "Boiling Flask",
@@ -19,14 +21,26 @@ export default function CreateGlassware() {
     "Condenser",
     "Watch Glass",
   ];
-  const [category, setCategory] = useState(categories[0]);
+  const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`${API_URL}/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        setCapacity(data.capacity || "");
+        setCategory(data.category || "");
+        setBrand(data.brand || "");
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [id]);
 
   const handleSubmit = async e => {
     e.preventDefault();
-    await fetch(API_URL, {
-      method: "POST",
+    await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         capacity: Number(capacity),
@@ -34,12 +48,14 @@ export default function CreateGlassware() {
         brand,
       }),
     });
-    navigate("/inventory");
+    navigate(`/glassware/${id}`);
   };
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div>
-      <h2>Add Glassware</h2>
+      <h2>Edit Glassware</h2>
       <form className="glassware-form" onSubmit={handleSubmit}>
         <label>
           Capacity (mL)
@@ -66,7 +82,7 @@ export default function CreateGlassware() {
             onChange={e => setBrand(e.target.value)}
           />
         </label>
-        <button type="submit">Save</button>
+        <button type="submit">Update</button>
       </form>
     </div>
   );

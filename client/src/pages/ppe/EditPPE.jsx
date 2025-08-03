@@ -1,37 +1,25 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./Glassware.scss";
+import "./PPE.scss";
 
-const API_URL = "/api/glassware";
+const API_URL = "/api/ppe";
 
-export default function EditGlassware() {
+export default function EditPPE() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [capacity, setCapacity] = useState("");
-  const categories = [
-    "Boiling Flask",
-    "Erlenmeyer Flask",
-    "Griffin Beaker",
-    "Graduated Cylinder",
-    "Addition Funnel",
-    "Separation Funnel",
-    "Filtering Funnel",
-    "Filtering Flask",
-    "Test Tube",
-    "Condenser",
-    "Watch Glass",
-  ];
-  const [category, setCategory] = useState("");
+  const categories = ["Goggles", "Gloves", "Lab Coat", "Respirator"];
   const [brand, setBrand] = useState("");
+  const [category, setCategory] = useState("");
+  const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${API_URL}/${id}`)
       .then(res => res.json())
       .then(data => {
-        setCapacity(data.capacity || "");
-        setCategory(data.category || "");
         setBrand(data.brand || "");
+        setCategory(data.category || "");
+        setNotes(data.notes || "");
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -42,28 +30,20 @@ export default function EditGlassware() {
     await fetch(`${API_URL}/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        capacity: Number(capacity),
-        category,
-        brand,
-      }),
+      body: JSON.stringify({ brand, category, notes }),
     });
-    navigate(`/inventory/${id}`);
+    navigate(`/ppe/${id}`);
   };
 
   if (loading) return <p>Loading...</p>;
 
   return (
     <div>
-      <h2>Edit Glassware</h2>
-      <form className="glassware-form" onSubmit={handleSubmit}>
+      <h2>Edit PPE</h2>
+      <form className="ppe-form" onSubmit={handleSubmit}>
         <label>
-          Capacity (mL)
-          <input
-            type="number"
-            value={capacity}
-            onChange={e => setCapacity(e.target.value)}
-          />
+          Brand
+          <input value={brand} onChange={e => setBrand(e.target.value)} />
         </label>
         <label>
           Category
@@ -76,11 +56,8 @@ export default function EditGlassware() {
           </select>
         </label>
         <label>
-          Brand
-          <input
-            value={brand}
-            onChange={e => setBrand(e.target.value)}
-          />
+          Notes
+          <textarea value={notes} onChange={e => setNotes(e.target.value)} />
         </label>
         <button type="submit">Update</button>
       </form>

@@ -1,9 +1,12 @@
 import { Link, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import "./App.scss";
 import Inventory from "./pages/Inventory";
-import GlasswareDetail from "./pages/GlasswareDetail";
-import CreateGlassware from "./pages/CreateGlassware";
-import EditGlassware from "./pages/EditGlassware";
+import GlasswareDetail from "./pages/glassware/GlasswareDetail";
+import CreateGlassware from "./pages/glassware/CreateGlassware";
+import EditGlassware from "./pages/glassware/EditGlassware";
+import PPEDetail from "./pages/ppe/PPEDetail";
+import CreatePPE from "./pages/ppe/CreatePPE";
+import EditPPE from "./pages/ppe/EditPPE";
 import Reference from "./pages/Reference";
 
 function Header() {
@@ -72,9 +75,12 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/inventory" replace />} />
             <Route path="/inventory" element={<Inventory />} />
-            <Route path="/inventory/new" element={<CreateGlassware />} />
-            <Route path="/inventory/:id" element={<GlasswareDetail />} />
-            <Route path="/inventory/:id/edit" element={<EditGlassware />} />
+            <Route path="/glassware/new" element={<CreateGlassware />} />
+            <Route path="/glassware/:id" element={<GlasswareDetail />} />
+            <Route path="/glassware/:id/edit" element={<EditGlassware />} />
+            <Route path="/ppe/new" element={<CreatePPE />} />
+            <Route path="/ppe/:id" element={<PPEDetail />} />
+            <Route path="/ppe/:id/edit" element={<EditPPE />} />
             <Route path="/reference" element={<Reference />} />
             <Route path="*" element={<Navigate to="/inventory" replace />} />
           </Routes>

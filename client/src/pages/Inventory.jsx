@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import "./Glassware.scss";
+import "./glassware/Glassware.scss";
+import "./ppe/PPE.scss";
 
 const API_URLS = {
   all: "/api/inventory",
   glassware: "/api/glassware",
+  ppe: "/api/ppe",
 };
 
 export default function Inventory() {
@@ -30,8 +32,8 @@ export default function Inventory() {
       .catch(() => setLoading(false));
   }, [type]);
 
-  const deleteItem = async id => {
-    const url = type === "all" ? API_URLS.glassware : API_URLS[type];
+  const deleteItem = async (id, itemType = type) => {
+    const url = API_URLS[itemType];
     if (!url) return;
     await fetch(`${url}/${id}`, { method: "DELETE" });
     setItems(items.filter(g => g._id !== id));
@@ -43,21 +45,30 @@ export default function Inventory() {
   return (
     <div>
       <h2>Inventory</h2>
-      {(type === "glassware" || type === "all") && (
-        <Link to="/inventory/new">Add Glassware</Link>
+      {type === "glassware" && <Link to="/glassware/new">Add Glassware</Link>}
+      {type === "ppe" && <Link to="/ppe/new">Add PPE</Link>}
+      {type === "all" && (
+        <>
+          <Link to="/glassware/new">Add Glassware</Link>
+          <Link to="/ppe/new">Add PPE</Link>
+        </>
       )}
-      <ul className="glassware-list">
-        {items.map(g => (
-          <li key={g._id}>
-            <Link to={`/inventory/${g._id}`}>
-              {g.brand} {g.category} ({g.capacity} mL)
-            </Link>
-            <div className="actions">
-              <Link to={`/inventory/${g._id}/edit`}>Edit</Link>
-              <button onClick={() => deleteItem(g._id)}>Delete</button>
-            </div>
-          </li>
-        ))}
+      <ul className={(type === "all" ? "glassware" : type) + "-list"}>
+        {items.map(g => {
+          const itemType = type === "all" ? g.type : type;
+          return (
+            <li key={g._id}>
+              <Link to={`/${itemType}/${g._id}`}>
+                {g.brand} {g.category}
+                {itemType === "glassware" && ` (${g.capacity} mL)`}
+              </Link>
+              <div className="actions">
+                <Link to={`/${itemType}/${g._id}/edit`}>Edit</Link>
+                <button onClick={() => deleteItem(g._id, itemType)}>Delete</button>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

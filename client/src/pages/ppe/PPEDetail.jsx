@@ -1,36 +1,36 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import "./Glassware.scss";
+import "./PPE.scss";
 
-const API_URL = "/api/glassware";
+const API_URL = "/api/ppe";
 
-export default function GlasswareDetail() {
+export default function PPEDetail() {
   const { id } = useParams();
-  const [glass, setGlass] = useState(null);
+  const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${API_URL}/${id}`)
       .then(res => res.json())
       .then(data => {
-        setGlass(data);
+        setItem(data);
         setLoading(false);
       })
       .catch(() => setLoading(false));
   }, [id]);
 
   if (loading) return <p>Loading...</p>;
-  if (!glass) return <p>Glassware not found.</p>;
+  if (!item) return <p>PPE not found.</p>;
 
   return (
-    <div className="glassware-detail">
+    <div className="ppe-detail">
       <h2>
-        {glass.brand} {glass.category}
+        {item.brand} {item.category}
       </h2>
-      <p>Capacity: {glass.capacity} mL</p>
+      {item.notes && <p>Notes: {item.notes}</p>}
       <div className="actions">
-        <Link to={`/inventory/${id}/edit`}>Edit</Link>
-        <Link to="/inventory">Back to list</Link>
+        <Link to={`/ppe/${id}/edit`}>Edit</Link>
+        <Link to="/inventory?type=ppe">Back to list</Link>
       </div>
     </div>
   );
