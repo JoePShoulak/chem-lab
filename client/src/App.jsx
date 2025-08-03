@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import "./App.scss";
-import ItemsList from "./pages/ItemsList";
-import ItemDetail from "./pages/ItemDetail";
-import CreateItem from "./pages/CreateItem";
-import EditItem from "./pages/EditItem";
+import GlasswareList from "./pages/GlasswareList";
+import GlasswareDetail from "./pages/GlasswareDetail";
+import CreateGlassware from "./pages/CreateGlassware";
+import EditGlassware from "./pages/EditGlassware";
 import Reference from "./pages/Reference";
 
 function Header() {
@@ -31,7 +31,7 @@ function Sidebar() {
             <a href="#/">Dashboard</a>
           </li>
           <li>
-            <a href="#/items">Items</a>
+            <a href="#/glassware">Glassware</a>
           </li>
           <li>
             <a href="#/settings">Settings</a>
@@ -53,7 +53,7 @@ function NavBar() {
           <a href="#/reference">Reference</a>
         </li>
         <li>
-          <a href="#/items">Inventory</a>
+          <a href="#/glassware">Inventory</a>
         </li>
         <li>
           <a href="#/reactions">Reactions</a>
@@ -76,38 +76,45 @@ function App() {
   }, []);
 
   const renderRoute = () => {
-    if (route.startsWith("#/items/") && route.endsWith("/edit")) {
+    if (route.startsWith("#/glassware/") && route.endsWith("/edit")) {
       const id = route.split("/")[2];
-      return <EditItem id={id} />;
+      return <EditGlassware id={id} />;
     }
-    if (route === "#/items/new") {
-      return <CreateItem />;
+    if (route === "#/glassware/new") {
+      return <CreateGlassware />;
     }
-    if (route.startsWith("#/items/") && route.split("/").length === 3) {
+    if (route.startsWith("#/glassware/") && route.split("/").length === 3) {
       const id = route.split("/")[2];
-      return <ItemDetail id={id} />;
+      return <GlasswareDetail id={id} />;
     }
     if (route === "#/reference") {
       return <Reference />;
     }
     if (
-      route === "#/items" ||
+      route === "#/glassware" ||
       route === "#/inventory" ||
       route === "#/" ||
       route === "" ||
       route === "#"
     ) {
-      return <ItemsList />;
+      return <GlasswareList />;
     }
-    return <ItemsList />;
+    return <GlasswareList />;
   };
+
+  const isInventoryPage =
+    route === "#/glassware" ||
+    route === "#/inventory" ||
+    route === "#/" ||
+    route === "" ||
+    route === "#";
 
   return (
     <div className="app-container">
       <Header />
       <NavBar />
       <div className="app-body">
-        <Sidebar />
+        {isInventoryPage && <Sidebar />}
         <main className="app-content">{renderRoute()}</main>
       </div>
       <Footer />

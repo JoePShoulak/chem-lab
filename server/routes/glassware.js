@@ -1,46 +1,56 @@
 const express = require('express');
-const Item = require('../models/Item');
+const Glassware = require('../models/Glassware');
 
 const router = express.Router();
 
-// Get all items
+// Get all glassware
 router.get('/', async (req, res) => {
   try {
-    const items = await Item.find();
-    res.json(items);
+    const glassware = await Glassware.find();
+    res.json(glassware);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Create new item
+// Create new glassware
 router.post('/', async (req, res) => {
   try {
-    const item = new Item({ name: req.body.name });
-    const saved = await item.save();
+    const glass = new Glassware({
+      name: req.body.name,
+      capacity: req.body.capacity,
+      shape: req.body.shape,
+      brand: req.body.brand,
+    });
+    const saved = await glass.save();
     res.status(201).json(saved);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 });
 
-// Get item by id
+// Get glassware by id
 router.get('/:id', async (req, res) => {
   try {
-    const item = await Item.findById(req.params.id);
-    if (!item) return res.status(404).json({ error: 'Not found' });
-    res.json(item);
+    const glass = await Glassware.findById(req.params.id);
+    if (!glass) return res.status(404).json({ error: 'Not found' });
+    res.json(glass);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Update item by id
+// Update glassware by id
 router.put('/:id', async (req, res) => {
   try {
-    const updated = await Item.findByIdAndUpdate(
+    const updated = await Glassware.findByIdAndUpdate(
       req.params.id,
-      { name: req.body.name },
+      {
+        name: req.body.name,
+        capacity: req.body.capacity,
+        shape: req.body.shape,
+        brand: req.body.brand,
+      },
       { new: true, runValidators: true }
     );
     if (!updated) return res.status(404).json({ error: 'Not found' });
@@ -50,12 +60,12 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete item by id
+// Delete glassware by id
 router.delete('/:id', async (req, res) => {
   try {
-    const deleted = await Item.findByIdAndDelete(req.params.id);
+    const deleted = await Glassware.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ error: 'Not found' });
-    res.json({ message: 'Item deleted' });
+    res.json({ message: 'Glassware deleted' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
