@@ -1,11 +1,8 @@
 // client/src/components/CompoundDetails.jsx
 import "./CompoundDetails.scss";
 
-function getProp(compound, label, name = null) {
-  return compound.props.find(
-    p => p.urn.label === label && (name ? p.urn.name === name : true)
-  )?.value;
-}
+const getProp = (compound, label, name) =>
+  compound.props.find(p => p.urn.label === label && p.urn.name === name).value;
 
 export default function CompoundDetails({ compound }) {
   const cid = compound?.id?.id?.cid;
@@ -16,11 +13,20 @@ export default function CompoundDetails({ compound }) {
   const inchi = getProp(compound, "InChI", "Standard")?.sval;
   const smiles = getProp(compound, "SMILES", "Absolute")?.sval;
 
+  function Prop({ label, value }) {
+    return (
+      <tr>
+        <th>{label}</th>
+        <td>{value}</td>
+      </tr>
+    );
+  }
+
   return (
     <div className="compound-card">
       <div className="compound-header">
-        <h2>{`${iupacName}${
-          tradName && tradName != iupacName ? ` (${tradName})` : ""
+        <h2>{`${iupacName} ${
+          tradName != iupacName ? `(${tradName})` : ""
         }`}</h2>
         <p className="formula">{formula}</p>
       </div>
@@ -40,28 +46,10 @@ export default function CompoundDetails({ compound }) {
         <div className="compound-info">
           <table>
             <tbody>
-              {weight && (
-                <tr>
-                  <th>Molecular Weight</th>
-                  <td>{weight}</td>
-                </tr>
-              )}
-              {inchi && (
-                <tr>
-                  <th>InChI</th>
-                  <td className="break">{inchi}</td>
-                </tr>
-              )}
-              {smiles && (
-                <tr>
-                  <th>SMILES</th>
-                  <td className="break">{smiles}</td>
-                </tr>
-              )}
-              <tr>
-                <th>PubChem CID</th>
-                <td>{cid}</td>
-              </tr>
+              {weight && <Prop label="Molecular Weight" value={weight} />}
+              {inchi && <Prop label="InChI" value={inchi} />}
+              {smiles && <Prop label="SMILES" value={smiles} />}
+              {cid && <Prop label="CID" value={cid} />}
             </tbody>
           </table>
         </div>
