@@ -1,9 +1,9 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import "./App.scss";
-import ItemsList from "./pages/ItemsList";
-import ItemDetail from "./pages/ItemDetail";
-import CreateItem from "./pages/CreateItem";
-import EditItem from "./pages/EditItem";
+import GlasswareList from "./pages/GlasswareList";
+import GlasswareDetail from "./pages/GlasswareDetail";
+import CreateGlassware from "./pages/CreateGlassware";
+import EditGlassware from "./pages/EditGlassware";
 import Reference from "./pages/Reference";
 
 function Header() {
@@ -31,7 +31,7 @@ function Sidebar() {
             <Link to="/">Dashboard</Link>
           </li>
           <li>
-            <Link to="/items">Items</Link>
+            <Link to="/inventory">Inventory</Link>
           </li>
           <li>
             <Link to="/settings">Settings</Link>
@@ -53,7 +53,7 @@ function NavBar() {
           <Link to="/reference">Reference</Link>
         </li>
         <li>
-          <Link to="/items">Inventory</Link>
+          <Link to="/inventory">Inventory</Link>
         </li>
         <li>
           <Link to="/reactions">Reactions</Link>
@@ -67,22 +67,22 @@ function NavBar() {
 }
 
 function App() {
+  const location = useLocation();
   return (
     <div className="app-container">
       <Header />
       <NavBar />
       <div className="app-body">
-        <Sidebar />
+        {location.pathname === "/inventory" && <Sidebar />}
         <main className="app-content">
           <Routes>
-            <Route path="/" element={<ItemsList />} />
-            <Route path="/items" element={<ItemsList />} />
-            <Route path="/inventory" element={<ItemsList />} />
-            <Route path="/items/new" element={<CreateItem />} />
-            <Route path="/items/:id" element={<ItemDetail />} />
-            <Route path="/items/:id/edit" element={<EditItem />} />
+            <Route path="/" element={<Navigate to="/inventory" replace />} />
+            <Route path="/inventory" element={<GlasswareList />} />
+            <Route path="/inventory/new" element={<CreateGlassware />} />
+            <Route path="/inventory/:id" element={<GlasswareDetail />} />
+            <Route path="/inventory/:id/edit" element={<EditGlassware />} />
             <Route path="/reference" element={<Reference />} />
-            <Route path="*" element={<ItemsList />} />
+            <Route path="*" element={<Navigate to="/inventory" replace />} />
           </Routes>
         </main>
       </div>

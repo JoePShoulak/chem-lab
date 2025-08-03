@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Express backend for Item API",
+  "description": "Express backend for Glassware API",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

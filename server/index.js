@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const itemsRouter = require("./routes/items");
+const glasswareRouter = require("./routes/glassware");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,7 +17,7 @@ app.use(
 );
 
 app.use(express.json());
-app.use("/items", itemsRouter);
+app.use("/glassware", glasswareRouter);
 
 mongoose
   .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
