@@ -8,7 +8,6 @@ const app = express();
 const port = process.env.PORT || 5000;
 const mongoUri = process.env.MONGODB_URI;
 
-// ✅ CORS middleware — allow from localhost:5173
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -20,14 +19,6 @@ app.use(
 app.use(express.json());
 app.use("/items", itemsRouter);
 
-fetch("https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/acetone/JSON")
-  .then(res => res.json())
-  .then(data => {
-    const compound = data.PC_Compounds[0];
-    console.log(compound.props); // contains weight, formula, names, etc.
-  });
-
-// Connect to MongoDB
 mongoose
   .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {

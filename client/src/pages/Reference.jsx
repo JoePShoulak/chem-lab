@@ -18,6 +18,7 @@ export default function Reference() {
       );
       if (!response.ok) throw new Error("No compound found");
       const data = await response.json();
+      console.log(data);
       const compoundData = data?.PC_Compounds?.[0];
       if (!compoundData) throw new Error("No compound found");
       setCompound(compoundData);

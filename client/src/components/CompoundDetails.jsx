@@ -9,7 +9,8 @@ function getProp(compound, label, name = null) {
 
 export default function CompoundDetails({ compound }) {
   const cid = compound?.id?.id?.cid;
-  const iupacName = getProp(compound, "IUPAC Name", "Preferred")?.sval;
+  const iupacName = getProp(compound, "IUPAC Name", "Systematic")?.sval;
+  const tradName = getProp(compound, "IUPAC Name", "Traditional")?.sval;
   const formula = getProp(compound, "Molecular Formula")?.sval;
   const weight = getProp(compound, "Molecular Weight")?.sval;
   const inchi = getProp(compound, "InChI", "Standard")?.sval;
@@ -18,7 +19,9 @@ export default function CompoundDetails({ compound }) {
   return (
     <div className="compound-card">
       <div className="compound-header">
-        <h2>{iupacName || "Unnamed Compound"}</h2>
+        <h2>{`${iupacName}${
+          tradName && tradName != iupacName ? ` (${tradName})` : ""
+        }`}</h2>
         <p className="formula">{formula}</p>
       </div>
 
