@@ -9,15 +9,18 @@ export default function CreateGlassware() {
   const categories = [
     "Boiling Flask",
     "Erlenmeyer Flask",
-    "Griffin Beaker",
-    "Graduated Cylinder",
+    "Filtering Flask",
+    "Filtering Funnel",
     "Addition Funnel",
     "Separation Funnel",
-    "Filtering Funnel",
-    "Filtering Flask",
+    "Basic Funnel",
+    "Griffin Beaker",
+    "Graduated Cylinder",
     "Test Tube",
     "Condenser",
     "Watch Glass",
+    "Wash Bottle",
+    "Cold Trap",
   ];
   const [category, setCategory] = useState(categories[0]);
   const [brand, setBrand] = useState("");
@@ -61,10 +64,7 @@ export default function CreateGlassware() {
         </label>
         <label>
           Brand
-          <input
-            value={brand}
-            onChange={e => setBrand(e.target.value)}
-          />
+          <input value={brand} onChange={e => setBrand(e.target.value)} />
         </label>
         <button type="submit">Save</button>
       </form>

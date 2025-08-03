@@ -11,15 +11,18 @@ export default function EditGlassware() {
   const categories = [
     "Boiling Flask",
     "Erlenmeyer Flask",
-    "Griffin Beaker",
-    "Graduated Cylinder",
+    "Filtering Flask",
+    "Filtering Funnel",
     "Addition Funnel",
     "Separation Funnel",
-    "Filtering Funnel",
-    "Filtering Flask",
+    "Basic Funnel",
+    "Griffin Beaker",
+    "Graduated Cylinder",
     "Test Tube",
     "Condenser",
     "Watch Glass",
+    "Wash Bottle",
+    "Cold Trap",
   ];
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
@@ -77,10 +80,7 @@ export default function EditGlassware() {
         </label>
         <label>
           Brand
-          <input
-            value={brand}
-            onChange={e => setBrand(e.target.value)}
-          />
+          <input value={brand} onChange={e => setBrand(e.target.value)} />
         </label>
         <button type="submit">Update</button>
       </form>
