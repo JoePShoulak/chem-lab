@@ -8,6 +8,8 @@ export default function Reference() {
   const [compound, setCompound] = useState(null);
   const [error, setError] = useState(null);
   const pubchem = "https://pubchem.ncbi.nlm.nih.gov/rest/pug";
+  // TODO: Get physical characteristics like boiling and melting point from somewhere like: https://www.chemspider.com/
+  // TODO: Get related reactions from somewhere like: https://docs.open-reaction-database.org/
 
   const handleSubmit = async e => {
     e.preventDefault();
