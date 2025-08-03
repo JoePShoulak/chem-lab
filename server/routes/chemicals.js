@@ -65,14 +65,12 @@ router.get("/lookup/:name", async (req, res) => {
         const rscData = await rscResponse.json();
         if (rscData?.queryId) {
           const rscIdsResponse = await fetch(
-            `https://api.rsc.org/compounds/v1/filter/${rscData.queryId}/results`,
+            `https://api.rsc.org/compounds/v1/filter/${rscData.queryId}/results?start=0&count=10`,
             {
-              method: "POST",
               headers: {
-                "Content-Type": "application/json",
                 apikey: process.env.RSC_KEY,
+                Accept: "application/json",
               },
-              body: JSON.stringify({ start: 0, count: 10 }),
             }
           );
           const rscIdsText = await rscIdsResponse.text();
@@ -84,14 +82,15 @@ router.get("/lookup/:name", async (req, res) => {
           }
           if (Array.isArray(rscIds?.results) && rscIds.results.length) {
             const recordPromises = rscIds.results.map(id =>
-              fetch(`https://api.rsc.org/compounds/v1/records/${id}`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  apikey: process.env.RSC_KEY,
-                },
-                body: JSON.stringify({}),
-              }).then(async r => {
+              fetch(
+                `https://api.rsc.org/compounds/v1/records/${id}/details`,
+                {
+                  headers: {
+                    apikey: process.env.RSC_KEY,
+                    Accept: "application/json",
+                  },
+                }
+              ).then(async r => {
                 const text = await r.text();
                 try {
                   return JSON.parse(text);
