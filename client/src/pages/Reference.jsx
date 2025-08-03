@@ -2,29 +2,19 @@
 import { useState } from "react";
 import CompoundDetails from "../components/CompoundDetails"; // make sure path is correct
 import "./Reference.scss";
+import { getCompoundByName } from "../api/rsc";
 
 export default function Reference() {
   const [name, setName] = useState("");
   const [compound, setCompound] = useState(null);
   const [error, setError] = useState(null);
-  const pubchem = "https://pubchem.ncbi.nlm.nih.gov/rest/pug";
 
   const handleSubmit = async e => {
     e.preventDefault();
     setError(null);
     setCompound(null);
     try {
-      const response = await fetch(
-        `${pubchem}/compound/name/${encodeURIComponent(name)}/JSON`
-      );
-
-      if (!response.ok) throw new Error("No compound found");
-
-      const data = await response.json();
-      const compoundData = data?.PC_Compounds?.[0];
-
-      if (!compoundData) throw new Error("No compound found");
-
+      const compoundData = await getCompoundByName(name);
       setCompound(compoundData);
     } catch (err) {
       setError(err.message);

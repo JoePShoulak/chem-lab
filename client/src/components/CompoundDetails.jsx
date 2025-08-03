@@ -1,17 +1,18 @@
-// client/src/components/CompoundDetails.jsx
+import { imageUrl } from "../api/rsc";
 import "./CompoundDetails.scss";
 
-const getProp = (compound, label, name) =>
-  compound.props.find(p => p.urn.label === label && p.urn.name === name)?.value;
-
 export default function CompoundDetails({ compound }) {
-  const cid = compound?.id?.id?.cid;
-  const iupacName = getProp(compound, "IUPAC Name", "Systematic")?.sval;
-  const tradName = getProp(compound, "IUPAC Name", "Traditional")?.sval;
-  const formula = getProp(compound, "Molecular Formula")?.sval;
-  const weight = getProp(compound, "Molecular Weight")?.sval;
-  const inchi = getProp(compound, "InChI", "Standard")?.sval;
-  const smiles = getProp(compound, "SMILES", "Absolute")?.sval;
+  const {
+    csid,
+    commonName,
+    iupacName,
+    molecularFormula,
+    molecularWeight,
+    inchi,
+    smiles,
+  } = compound || {};
+
+  const name = iupacName || commonName;
 
   function Prop({ label, value }) {
     return (
@@ -25,19 +26,14 @@ export default function CompoundDetails({ compound }) {
   return (
     <div className="compound-card">
       <div className="compound-header">
-        <h2>{`${iupacName} ${
-          tradName != iupacName ? `(${tradName})` : ""
-        }`}</h2>
-        <p className="formula">{formula}</p>
+        <h2>{name}</h2>
+        {molecularFormula && <p className="formula">{molecularFormula}</p>}
       </div>
 
       <div className="compound-body">
         <div className="structure-img">
-          {cid ? (
-            <img
-              src={`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${cid}/PNG`}
-              alt={`Structure of ${iupacName || formula}`}
-            />
+          {csid ? (
+            <img src={imageUrl(csid)} alt={`Structure of ${name || molecularFormula}`} />
           ) : (
             <p>[No image]</p>
           )}
@@ -46,10 +42,12 @@ export default function CompoundDetails({ compound }) {
         <div className="compound-info">
           <table>
             <tbody>
-              {weight && <Prop label="Molecular Weight" value={weight} />}
+              {molecularWeight && (
+                <Prop label="Molecular Weight" value={molecularWeight} />
+              )}
               {inchi && <Prop label="InChI" value={inchi} />}
               {smiles && <Prop label="SMILES" value={smiles} />}
-              {cid && <Prop label="CID" value={cid} />}
+              {csid && <Prop label="CSID" value={csid} />}
             </tbody>
           </table>
         </div>
