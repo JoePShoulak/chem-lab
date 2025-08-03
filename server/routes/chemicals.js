@@ -82,7 +82,7 @@ router.get("/lookup/:name", async (req, res) => {
           }
           if (Array.isArray(rscIds?.results) && rscIds.results.length) {
             const fields =
-              "nominalMass,CommonName,formula,InChI,InChIkey,smiles";
+              "NominalMass,CommonName,Formula,InChI,InChIKey,SMILES";
             const recordPromises = rscIds.results.map(id =>
               fetch(
                 `https://api.rsc.org/compounds/v1/records/${id}/details?fields=${fields}`,
