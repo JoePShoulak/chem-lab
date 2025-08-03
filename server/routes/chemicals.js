@@ -44,6 +44,24 @@ router.get("/lookup/:name", async (req, res) => {
     const compound = data?.PC_Compounds?.[0];
     if (!compound) return res.status(404).json({ error: "No compound found" });
 
+    // Query the Open Reaction Database for reactions involving this compound
+    const path = require("path");
+    const { execFile } = require("child_process");
+    const serverRoot = path.join(__dirname, "..");
+    const ordData = path.join(serverRoot, "ord-data");
+    const script = path.join(serverRoot, "query_ord.py");
+    execFile(
+      "python3",
+      [script, ordData, req.params.name],
+      (error, stdout, stderr) => {
+        if (error) {
+          console.error("ORD query error:", error);
+        } else {
+          console.log("ORD query result:", stdout.trim());
+        }
+      }
+    );
+
     res.json(compound);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch compound" });
