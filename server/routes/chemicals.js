@@ -46,21 +46,31 @@ router.get("/lookup/:name", async (req, res) => {
 
     // Query the Open Reaction Database for reactions involving this compound
     const path = require("path");
+    const fs = require("fs");
     const { execFile } = require("child_process");
     const serverRoot = path.join(__dirname, "..");
     const ordData = path.join(serverRoot, "ord-data");
+    const ordSchema = path.join(serverRoot, "ord-schema");
     const script = path.join(serverRoot, "query_ord.py");
-    execFile(
-      "python3",
-      [script, ordData, req.params.name],
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error("ORD query error:", error);
-        } else {
-          console.log("ORD query result:", stdout.trim());
+    if (fs.existsSync(ordData) && fs.existsSync(ordSchema)) {
+      execFile(
+        "python3",
+        [script, ordData, req.params.name],
+        (error, stdout, stderr) => {
+          if (error) {
+            console.error("ORD query error:", error);
+            return;
+          }
+          try {
+            console.log("ORD query result:", JSON.parse(stdout));
+          } catch {
+            console.log("ORD query result:", stdout.trim());
+          }
         }
-      }
-    );
+      );
+    } else {
+      console.warn("ORD data not found; skipping query");
+    }
 
     res.json(compound);
   } catch (err) {

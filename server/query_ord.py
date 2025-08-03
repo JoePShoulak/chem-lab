@@ -17,6 +17,14 @@ _add_ord_schema_to_path()
 try:
     from ord_schema import message_helpers
     from ord_schema.proto import dataset_pb2
+except ModuleNotFoundError as e:
+    missing = e.name
+    if missing == "google":
+        msg = "ord-schema dependency missing: install protobuf"
+    else:
+        msg = f"ord-schema import failed: {e}"
+    print(json.dumps({"error": msg}))
+    sys.exit(0)
 except Exception as e:
     print(json.dumps({"error": f"ord-schema import failed: {e}"}))
     sys.exit(0)
