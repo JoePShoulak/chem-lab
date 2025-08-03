@@ -49,7 +49,7 @@ export default function Inventory() {
       {type === "ppe" && <Link to="/ppe/new">Add PPE</Link>}
       {type === "all" && (
         <>
-          <Link to="/glassware/new">Add Glassware</Link>
+          <Link to="/glassware/new">Add Glassware</Link> <br />
           <Link to="/ppe/new">Add PPE</Link>
         </>
       )}
@@ -64,7 +64,9 @@ export default function Inventory() {
               </Link>
               <div className="actions">
                 <Link to={`/${itemType}/${g._id}/edit`}>Edit</Link>
-                <button onClick={() => deleteItem(g._id, itemType)}>Delete</button>
+                <button onClick={() => deleteItem(g._id, itemType)}>
+                  Delete
+                </button>
               </div>
             </li>
           );
