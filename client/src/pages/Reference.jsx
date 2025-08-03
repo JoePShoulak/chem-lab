@@ -1,6 +1,7 @@
 // client/src/pages/Reference.jsx
 import { useState } from "react";
 import CompoundDetails from "../components/CompoundDetails"; // make sure path is correct
+import "./Reference.scss";
 
 export default function Reference() {
   const [name, setName] = useState("");
@@ -30,18 +31,21 @@ export default function Reference() {
   };
 
   return (
-    <div>
+    <div className="reference-page">
       <h2>Chemical Reference</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          value={name}
-          onChange={e => setName(e.target.value)}
-          placeholder="Chemical name or formula"
-        />
+      <form onSubmit={handleSubmit} className="reference-form">
+        <label>
+          Name or formula
+          <input
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="Chemical name or formula"
+          />
+        </label>
         <button type="submit">Lookup</button>
       </form>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error">{error}</p>}
       {compound && <CompoundDetails compound={compound} />}
     </div>
   );
