@@ -48,7 +48,7 @@ export default function Inventory() {
       <ul>
         {items.map(g => (
           <li key={g._id}>
-            <Link to={`/inventory/${g._id}`}>{g.brand} {g.shape} ({g.capacity} mL)</Link>{" "}
+            <Link to={`/inventory/${g._id}`}>{g.brand} {g.category} ({g.capacity} mL)</Link>{" "}
             <Link to={`/inventory/${g._id}/edit`}>Edit</Link>{" "}
             <button onClick={() => deleteItem(g._id)}>Delete</button>
           </li>

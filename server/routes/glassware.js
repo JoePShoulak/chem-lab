@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
   try {
     const glass = new Glassware({
       capacity: req.body.capacity,
-      shape: req.body.shape,
+      category: req.body.category,
       brand: req.body.brand,
     });
     const saved = await glass.save();
@@ -46,7 +46,7 @@ router.put('/:id', async (req, res) => {
       req.params.id,
       {
         capacity: req.body.capacity,
-        shape: req.body.shape,
+        category: req.body.category,
         brand: req.body.brand,
       },
       { new: true, runValidators: true }

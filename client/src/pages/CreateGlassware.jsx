@@ -5,7 +5,20 @@ const API_URL = "http://localhost:5000/glassware";
 
 export default function CreateGlassware() {
   const [capacity, setCapacity] = useState("");
-  const [shape, setShape] = useState("");
+  const categories = [
+    'Boiling Flask',
+    'Erlenmeyer Flask',
+    'Griffin Beaker',
+    'Graduated Cylinder',
+    'Addition Funnel',
+    'Separation Funnel',
+    'Filtering Funnel',
+    'Filtering Flask',
+    'Test Tube',
+    'Condenser',
+    'Watch Glass',
+  ];
+  const [category, setCategory] = useState(categories[0]);
   const [brand, setBrand] = useState("");
   const navigate = useNavigate();
 
@@ -16,7 +29,7 @@ export default function CreateGlassware() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         capacity: Number(capacity),
-        shape,
+        category,
         brand,
       }),
     });
@@ -33,11 +46,13 @@ export default function CreateGlassware() {
           onChange={(e) => setCapacity(e.target.value)}
           placeholder="Capacity (mL)"
         />
-        <input
-          value={shape}
-          onChange={(e) => setShape(e.target.value)}
-          placeholder="Shape"
-        />
+        <select value={category} onChange={e => setCategory(e.target.value)}>
+          {categories.map(c => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
         <input
           value={brand}
           onChange={(e) => setBrand(e.target.value)}

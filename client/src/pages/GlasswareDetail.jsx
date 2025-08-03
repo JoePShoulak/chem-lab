@@ -23,7 +23,7 @@ export default function GlasswareDetail() {
 
   return (
     <div>
-      <h2>{glass.brand} {glass.shape}</h2>
+      <h2>{glass.brand} {glass.category}</h2>
       <p>Capacity: {glass.capacity} mL</p>
       <Link to={`/inventory/${id}/edit`}>Edit</Link>
       <Link to="/inventory">Back to list</Link>
