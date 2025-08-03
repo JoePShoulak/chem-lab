@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const glasswareRouter = require("./routes/glassware");
+const inventoryRouter = require("./routes/inventory");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -18,6 +19,7 @@ app.use(
 
 app.use(express.json());
 app.use("/glassware", glasswareRouter);
+app.use("/inventory", inventoryRouter);
 
 mongoose
   .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
