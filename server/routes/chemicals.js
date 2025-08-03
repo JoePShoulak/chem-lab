@@ -64,19 +64,34 @@ router.get("/lookup/:name", async (req, res) => {
         );
         const rscData = await rscResponse.json();
         if (rscData?.queryId) {
-          const rscResultsResponse = await fetch(
-            `https://api.rsc.org/compounds/v1/records/${rscData.queryId}`,
+          const rscIdsResponse = await fetch(
+            `https://api.rsc.org/compounds/v1/filter/${rscData.queryId}/results`,
             {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
                 apikey: process.env.RSC_KEY,
               },
-              body: JSON.stringify({}),
+              body: JSON.stringify({ start: 0, count: 10 }),
             }
           );
-          const rscResults = await rscResultsResponse.json();
-          console.log("RSC data:", rscResults);
+          const rscIds = await rscIdsResponse.json();
+          if (Array.isArray(rscIds?.results) && rscIds.results.length) {
+            const recordPromises = rscIds.results.map(id =>
+              fetch(`https://api.rsc.org/compounds/v1/records/${id}`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  apikey: process.env.RSC_KEY,
+                },
+                body: JSON.stringify({}),
+              }).then(r => r.json())
+            );
+            const rscRecords = await Promise.all(recordPromises);
+            console.log("RSC data:", rscRecords);
+          } else {
+            console.log("RSC results:", rscIds);
+          }
         } else {
           console.log("RSC response:", rscData);
         }
