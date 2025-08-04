@@ -3,8 +3,10 @@ import os
 import gzip
 import glob
 import gc
+import time
+import multiprocessing
 
-# Add path to ORD schema definitions
+# Keep this path setup exactly as-is
 sys.path.append(os.path.abspath("ord-schema"))
 from ord_schema.proto import dataset_pb2
 
@@ -76,40 +78,60 @@ def reaction_contains_smiles(reaction, target_smiles: str):
 
     return False
 
+
+def process_file(file_path, target_smiles, return_dict):
+    try:
+        dataset = load_dataset(file_path)
+        matches = []
+        for idx, reaction in enumerate(dataset.reactions):
+            if reaction_contains_smiles(reaction, target_smiles):
+                matches.append({
+                    "file": file_path,
+                    "reaction_index": idx
+                })
+        return_dict["results"] = matches
+    except Exception as e:
+        return_dict["error"] = str(e)
+
+
 if __name__ == "__main__":
     search_smiles = "CCO"  # Change this to your target SMILES
     data_files = glob.glob("ord-data/**/*.pb.gz", recursive=True)
-    print(f"🔍 Found {len(data_files)} .pb.gz files to search.")
+    print(f"[INFO] Found {len(data_files)} .pb.gz files to search.")
 
-    match_results = []  # List of dicts: {file, reaction_index}
-    total_reactions_checked = 0
+    match_results = []
     total_matches = 0
 
     for i, file_path in enumerate(data_files, 1):
-        print(f"\r🔎 [{i}/{len(data_files)}] Searching...", end="")
-        try:
-            dataset = load_dataset(file_path)
-            for idx, reaction in enumerate(dataset.reactions):
-                total_reactions_checked += 1
-                if reaction_contains_smiles(reaction, search_smiles):
-                    match_results.append({
-                        "file": file_path,
-                        "reaction_index": idx
-                    })
-                    total_matches += 1
-            del dataset
-            gc.collect()
-        except Exception as e:
-            print(f"\n⚠️ Skipping {file_path}: {e}")
+        while True:
+            print(f"\r[Searching] [{i}/{len(data_files)}]", end="")
+            manager = multiprocessing.Manager()
+            return_dict = manager.dict()
+            p = multiprocessing.Process(target=process_file, args=(file_path, search_smiles, return_dict))
+            p.start()
+            p.join(timeout=30)
 
-    print(f"\n✅ Done. Found {total_matches} matching reactions containing '{search_smiles}'")
+            if p.exitcode == 0:
+                matches = return_dict.get("results", [])
+                match_results.extend(matches)
+                total_matches += len(matches)
+                break
+            else:
+                print(f"\n[Warning] Crash while processing {file_path}. Retrying in 1 second...")
+                time.sleep(1)
 
-    # Show first 5 reaction summaries
+        gc.collect()
+
+    print(f"\n[Done] Found {total_matches} matching reactions containing '{search_smiles}'")
+
     if match_results:
-        print(f"\n📋 Showing summaries of the first {min(5, len(match_results))} matches:\n")
+        print(f"\n[Summary] Showing summaries of the first {min(5, len(match_results))} matches:\n")
         for result in match_results[:5]:
-            dataset = load_dataset(result["file"])
-            reaction = dataset.reactions[result["reaction_index"]]
-            print_reaction_summary(reaction)
-            del dataset
-            gc.collect()
+            try:
+                dataset = load_dataset(result["file"])
+                reaction = dataset.reactions[result["reaction_index"]]
+                print_reaction_summary(reaction)
+                del dataset
+                gc.collect()
+            except Exception as e:
+                print(f"[Warning] Could not reload result for summary: {e}")

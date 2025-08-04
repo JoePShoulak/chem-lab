@@ -45,6 +45,7 @@ router.get("/lookup/:name", async (req, res) => {
     if (!compound) return res.status(404).json({ error: "No compound found" });
 
     // Query the Open Reaction Database for reactions involving this compound
+    console.log("Querying ORD...");
     const path = require("path");
     const fs = require("fs");
     const { execFile } = require("child_process");
