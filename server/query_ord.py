@@ -8,8 +8,7 @@ import multiprocessing
 
 # Keep this path setup exactly as-is
 sys.path.append(os.path.abspath("ord-schema"))
-from ord_schema.proto import dataset_pb2
-
+from ord_schema.proto import dataset_pb2 #type: ignore
 
 def load_dataset(filepath):
     """Load a .pb.gz file and parse it as a Dataset."""
