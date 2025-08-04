@@ -1,0 +1,93 @@
+// src/App.scss
+
+$blue-dark: #0b3d91;
+$blue-mid: #1565c0;
+$blue-light: #e3f2fd;
+$text-light: #ffffff;
+$text-dark: #1e1e1e;
+$gray-bg: #f5f7fa;
+
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: $gray-bg;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+
+  .app-header, .app-footer {
+    background-color: $blue-dark;
+    color: $text-light;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .app-nav {
+    background-color: $blue-mid;
+    padding: 0.5rem 1rem;
+
+    ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin-right: 1rem;
+
+        a {
+          color: $text-light;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .app-body {
+    display: flex;
+    flex: 1;
+
+    .app-sidebar {
+      width: 220px;
+      background-color: $blue-mid;
+      color: $text-light;
+      padding: 1.5rem 1rem;
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          margin: 1rem 0;
+
+          a {
+            color: $text-light;
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+
+    .app-content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+      background-color: $blue-light;
+      color: $text-dark;
+    }
+  }
+}
